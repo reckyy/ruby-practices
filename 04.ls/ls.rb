@@ -5,8 +5,8 @@ require 'optparse'
 INITIAL_COLUMN = 3
 
 def parse_file
-  options = ARGV.getopts('a')
-  options['a'] ? Dir.entries('.').sort : Dir.glob('*').sort
+  options = ARGV.getopts('r')
+  options['r'] ? Dir.glob('*').sort.reverse : Dir.glob('*').sort
 end
 
 def calculate_row_and_space(all_files)

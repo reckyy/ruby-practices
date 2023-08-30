@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+require 'optparse'
+
 INITIAL_COLUMN = 3
 
 def parse_file
-  Dir.glob('*').sort
+  options = ARGV.getopts('a')
+  options['a'] ? Dir.entries('.').sort : Dir.glob('*').sort
 end
 
 def calculate_row_and_space(all_files)

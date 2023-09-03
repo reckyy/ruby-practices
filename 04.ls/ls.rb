@@ -6,7 +6,13 @@ INITIAL_COLUMN = 3
 
 def parse_file
   options = ARGV.getopts('l')
-  options['l'] ? ls_l : Dir.glob('*').sort
+  if options['l']
+    all_files = Dir.glob('*').sort
+  else
+    all_files = Dir.glob('*').sort
+    total_row, width = calculate_row_and_space(all_files)
+    ls(all_files, total_row, width)
+  end
 end
 
 def calculate_row_and_space(all_files)
@@ -27,10 +33,4 @@ def ls(all_files, total_row, width)
   end
 end
 
-def ls_l
-  
-end
-
-all_files = parse_file
-total_row, width = calculate_row_and_space(all_files)
-ls(all_files, total_row, width)
+parse_file

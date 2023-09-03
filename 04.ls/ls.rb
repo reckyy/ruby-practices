@@ -74,6 +74,7 @@ def get_file_stat(all_files, file_list)
     fs = File::Stat.new(file)
     file_stat << convert_to_file_type(fs)
     file_stat << convert_to_file_permission(fs)
+    file_stat << fs.nlink
     file_list << file_stat
   end
 end

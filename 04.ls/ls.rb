@@ -73,13 +73,23 @@ def get_file_stat(all_files, file_list)
     file_stat = []
     fs = File::Stat.new(file)
     file_stat << convert_to_file_type(fs) + convert_to_file_permission(fs)
-    file_stat << fs.nlink
+    file_stat << fs.nlink.to_s.rjust(2)
     file_stat << Etc.getpwuid(fs.uid).name
     file_stat << Etc.getgrgid(fs.gid).name
     file_stat << fs.size
-    file_stat << fs.atime.strftime("%m月 %d %H:%M %Y")
+    file_atime = fs.atime
+    file_stat << file_atime.month
+    file_stat << file_atime.day
+    file_stat << file_atime.strftime("%H:%M")
+    file_stat << file_atime.year
     file_stat << file
     file_list << file_stat
+  end
+end
+
+def rejust_file(file_list)
+  file_list.each_with_index do |file, i|
+
   end
 end
 

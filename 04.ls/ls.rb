@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'debug'
 require 'optparse'
 
 INITIAL_COLUMN = 3

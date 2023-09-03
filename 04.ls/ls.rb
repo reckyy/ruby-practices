@@ -78,6 +78,7 @@ def get_file_stat(all_files, file_list)
     file_stat << Etc.getpwuid(fs.uid).name
     file_stat << Etc.getgrgid(fs.gid).name
     file_stat << fs.size
+    file_stat << fs.atime.strftime("%m月 %d %H:%M %Y")
     file_list << file_stat
   end
 end

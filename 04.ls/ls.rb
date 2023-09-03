@@ -76,6 +76,7 @@ def get_file_stat(all_files, file_list)
     file_stat << convert_to_file_permission(fs)
     file_stat << fs.nlink
     file_stat << Etc.getpwuid(fs.uid).name
+    file_stat << Etc.getgrgid(fs.gid).name
     file_list << file_stat
   end
 end

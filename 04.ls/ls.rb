@@ -50,7 +50,7 @@ def convert_to_file_type(file_stat)
 end
 
 def convert_to_file_permission(file_stat)
-  file_permission_number = file_stat.mode.to_s(8).slice(2..4)
+  file_permission_number = file_stat.mode.to_s(8).slice(-3..-1)
   file_permission_string = {
     0 => '---',
     1 => '--x',
@@ -72,8 +72,7 @@ def get_file_stat(all_files, file_list)
   all_files.each do |file|
     file_stat = []
     fs = File::Stat.new(file)
-    file_stat << convert_to_file_type(fs)
-    file_stat << convert_to_file_permission(fs)
+    file_stat << convert_to_file_type(fs) + convert_to_file_permission(fs)
     file_stat << fs.nlink
     file_stat << Etc.getpwuid(fs.uid).name
     file_stat << Etc.getgrgid(fs.gid).name

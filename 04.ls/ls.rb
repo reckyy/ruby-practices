@@ -82,7 +82,7 @@ def ls_l(all_files)
   file_list = []
   get_file_stat(all_files, file_list)
   file_list.each do |list|
-    puts list
+    puts list.join(' ')
   end
 end
 

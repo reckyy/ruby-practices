@@ -49,11 +49,31 @@ def convert_to_file_type(file_stat)
   file_type = all_file_type[file_stat.ftype.to_sym]
 end
 
+def convert_to_file_permission(file_stat)
+  file_permission_number = file_stat.mode.to_s(8).slice(2..4)
+  file_permission_string = {
+    0 => '---',
+    1 => '--x',
+    2 => '-w-',
+    3 => '-wx',
+    4 => 'r--',
+    5 => 'r-x',
+    6 => 'rw-',
+    7 => 'rwx'
+  }
+  file_permission_type = ''
+  file_permission_number.each_char do |c|
+    file_permission_type += file_permission_string[c.to_i]
+  end
+  file_permission_type
+end
+
 def get_file_stat(all_files, file_list)
   all_files.each do |file|
     file_stat = []
     fs = File::Stat.new(file)
     file_stat << convert_to_file_type(fs)
+    file_stat << convert_to_file_permission(fs)
     file_list << file_stat
   end
 end
@@ -61,7 +81,9 @@ end
 def ls_l(all_files)
   file_list = []
   get_file_stat(all_files, file_list)
-  puts file_list.join(' ')
+  file_list.each do |list|
+    puts list
+  end
 end
 
 parse_file

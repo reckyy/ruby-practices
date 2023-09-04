@@ -7,11 +7,10 @@ INITIAL_COLUMN = 3
 
 def parse_file
   options = ARGV.getopts('l')
+  all_files = Dir.glob('*').sort
   if options['l']
-    all_files = Dir.glob('*').sort
     ls_l(all_files)
   else
-    all_files = Dir.glob('*').sort
     total_row, width = calculate_row_and_space(all_files)
     ls(all_files, total_row, width)
   end

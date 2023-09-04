@@ -77,10 +77,10 @@ def get_file_stat(all_files, file_list)
     file_stat << Etc.getpwuid(fs.uid).name
     file_stat << Etc.getgrgid(fs.gid).name
     file_stat << fs.size
-    file_atime = fs.atime
-    file_stat << file_atime.month
-    file_stat << file_atime.day
-    file_stat << file_atime.strftime("%H:%M")
+    file_mtime = fs.mtime
+    file_stat << file_mtime.month
+    file_stat << file_mtime.day
+    file_stat << file_mtime.strftime("%H:%M")
     file_stat << file
     file_list << file_stat
   end

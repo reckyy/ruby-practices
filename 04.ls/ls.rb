@@ -36,16 +36,16 @@ end
 
 def convert_to_file_type(file_stat)
   all_file_type = {
-    file: "-",
-    directory: "d",
-    characterSpecial: "c",
-    blockSpecial: "b",
-    fifo: "p",
-    link: "l",
-    socket: "s",
-    unknown: "u"
+    file: '-',
+    directory: 'd',
+    characterSpecial: 'c',
+    blockSpecial: 'b',
+    fifo: 'p',
+    link: 'l',
+    socket: 's',
+    unknown: 'u'
   }
-  file_type = all_file_type[file_stat.ftype.to_sym]
+  all_file_type[file_stat.ftype.to_sym]
 end
 
 def convert_to_file_permission(file_stat)
@@ -81,7 +81,7 @@ def get_file_stat(all_files, file_list)
     file_mtime = fs.mtime
     file_stat << file_mtime.month
     file_stat << file_mtime.day
-    file_stat << file_mtime.strftime("%H:%M")
+    file_stat << file_mtime.strftime('%H:%M')
     file_stat << file
     file_list << file_stat
   end
@@ -101,8 +101,7 @@ def resize_file_list(file_list)
       bfl.map! { |element| element.to_s.rjust(max) }
     end
   end
-  resized_file_list = before_resize_file_list.transpose
-  resized_file_list
+  before_resize_file_list.transpose
 end
 
 def print_file_list(file_list, total_blocks)

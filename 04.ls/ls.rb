@@ -73,7 +73,7 @@ def get_file_stat(all_files, file_list)
     file_stat = []
     fs = File::Stat.new(file)
     file_stat << convert_to_file_type(fs) + convert_to_file_permission(fs)
-    file_stat << fs.nlink.to_s.rjust(2)
+    file_stat << fs.nlink.to_i
     file_stat << Etc.getpwuid(fs.uid).name
     file_stat << Etc.getgrgid(fs.gid).name
     file_stat << fs.size
@@ -81,21 +81,32 @@ def get_file_stat(all_files, file_list)
     file_stat << file_atime.month
     file_stat << file_atime.day
     file_stat << file_atime.strftime("%H:%M")
-    file_stat << file_atime.year
     file_stat << file
     file_list << file_stat
   end
 end
 
-def rejust_file(file_list)
-  file_list.each_with_index do |file, i|
-
+def resize_file_list(file_list)
+  before_resize_file_list = file_list.transpose
+  before_resize_file_list.each_with_index do |bfl, i|
+    if bfl.first.is_a?(String)
+      max = bfl.max_by(&:length).length
+      max += 1 if ![7, 8].include?(i)
+      bfl.map! { |element| element.ljust(max) }
+    else
+      max = bfl.max.to_s.length
+      max += 1 if i == 4
+      bfl.map! { |element| element.to_s.rjust(max) }
+    end
   end
+  resized_file_list = before_resize_file_list.transpose
+  resized_file_list
 end
 
 def ls_l(all_files)
   file_list = []
   get_file_stat(all_files, file_list)
+  file_list = resize_file_list(file_list)
   file_list.each do |list|
     puts list.join(' ')
   end

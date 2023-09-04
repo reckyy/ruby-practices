@@ -91,17 +91,28 @@ end
 def resize_file_list(file_list)
   before_resize_file_list = file_list.transpose
   before_resize_file_list.each_with_index do |bfl, i|
-    if bfl.first.is_a?(String)
-      max = bfl.max_by(&:length).length
-      max += 1 if ![7, 8].include?(i)
-      bfl.map! { |element| element.ljust(max) }
-    else
-      max = bfl.max.to_s.length
-      max += 1 if i == 4
-      bfl.map! { |element| element.to_s.rjust(max) }
-    end
+    max = calculate_max(bfl, i)
+    adjust_elements(bfl, max)
   end
   before_resize_file_list.transpose
+end
+
+def calculate_max(bfl, idx)
+  if bfl.first.is_a?(String)
+    max = bfl.max_by(&:length).length
+    ![7, 8].include?(idx) ? max + 1 : max
+  else
+    max = bfl.max.to_s.length
+    idx == 5 ? max + 1 : max
+  end
+end
+
+def adjust_elements(bfl, max)
+  if bfl.first.is_a?(String)
+    bfl.map! { |element| element.ljust(max) }
+  else
+    bfl.map! { |element| element.to_s.rjust(max) }
+  end
 end
 
 def print_file_list(file_list, total_blocks)

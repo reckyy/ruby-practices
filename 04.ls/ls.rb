@@ -69,9 +69,11 @@ def convert_to_file_permission(file_stat)
 end
 
 def get_file_stat(all_files, file_list)
+  total_blocks = 0
   all_files.each do |file|
     file_stat = []
     fs = File::Stat.new(file)
+    total_blocks += fs.blocks
     file_stat << convert_to_file_type(fs) + convert_to_file_permission(fs)
     file_stat << fs.nlink.to_i
     file_stat << Etc.getpwuid(fs.uid).name
@@ -84,6 +86,7 @@ def get_file_stat(all_files, file_list)
     file_stat << file
     file_list << file_stat
   end
+  total_blocks
 end
 
 def resize_file_list(file_list)
@@ -103,13 +106,18 @@ def resize_file_list(file_list)
   resized_file_list
 end
 
-def ls_l(all_files)
-  file_list = []
-  get_file_stat(all_files, file_list)
-  file_list = resize_file_list(file_list)
+def print_file_list(file_list, total_blocks)
+  puts "total #{total_blocks}"
   file_list.each do |list|
     puts list.join(' ')
   end
+end
+
+def ls_l(all_files)
+  file_list = []
+  total_blocks = get_file_stat(all_files, file_list)
+  file_list = resize_file_list(file_list)
+  print_file_list(file_list, total_blocks)
 end
 
 parse_file

@@ -86,26 +86,19 @@ end
 def resize_file_list(file_list)
   before_resize_file_list = file_list.transpose
   before_resize_file_list.each_with_index do |bfl, i|
-    max = calculate_max(bfl, i)
-    adjust_elements(bfl, max)
+    adjust_elements(bfl, i)
   end
   before_resize_file_list.transpose
 end
 
-def calculate_max(bfl, idx)
+def adjust_elements(bfl, idx)
   if bfl.first.is_a?(String)
     max = bfl.max_by(&:length).length
-    ![7, 8].include?(idx) ? max + 1 : max
-  else
-    max = bfl.max.to_s.length
-    idx == 5 ? max + 1 : max
-  end
-end
-
-def adjust_elements(bfl, max)
-  if bfl.first.is_a?(String)
+    max = ![7, 8].include?(idx) ? max + 1 : max
     bfl.map! { |element| element.ljust(max) }
   else
+    max = bfl.max.to_s.length
+    max = idx == 5 ? max + 1 : max
     bfl.map! { |element| element.to_s.rjust(max) }
   end
 end

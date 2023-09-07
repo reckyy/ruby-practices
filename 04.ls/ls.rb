@@ -62,7 +62,8 @@ def convert_to_file_permission(file_stat)
   file_permission_number.each_char.map { |c| file_permission_string[c.to_i] }.join
 end
 
-def get_file_stat(all_files, file_list)
+def get_file_stat(all_files)
+  file_list = []
   total_blocks = 0
   all_files.each do |file|
     fs = File::Stat.new(file)
@@ -80,15 +81,7 @@ def get_file_stat(all_files, file_list)
       file
     ]
   end
-  total_blocks
-end
-
-def resize_file_list(file_list)
-  before_resize_file_list = file_list.transpose
-  before_resize_file_list.each_with_index do |bfl, i|
-    adjust_elements(bfl, i)
-  end
-  before_resize_file_list.transpose
+  [file_list, total_blocks]
 end
 
 def adjust_elements(bfl, idx)
@@ -111,9 +104,8 @@ def print_file_list(file_list, total_blocks)
 end
 
 def ls_l(all_files)
-  file_list = []
-  total_blocks = get_file_stat(all_files, file_list)
-  file_list = resize_file_list(file_list)
+  file_list, total_blocks = get_file_stat(all_files)
+  file_list = file_list.transpose.each_with_index { |bfl, i| adjust_elements(bfl, i) }.transpose
   print_file_list(file_list, total_blocks)
 end
 

@@ -35,7 +35,7 @@ def ls(all_files, total_row, width)
 end
 
 def convert_to_file_type(file_stat)
-  all_file_type = {
+  {
     file: '-',
     directory: 'd',
     characterSpecial: 'c',
@@ -44,8 +44,7 @@ def convert_to_file_type(file_stat)
     link: 'l',
     socket: 's',
     unknown: 'u'
-  }
-  all_file_type[file_stat.ftype.to_sym]
+  }[file_stat.ftype.to_sym]
 end
 
 def convert_to_file_permission(file_stat)

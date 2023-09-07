@@ -65,20 +65,20 @@ end
 def get_file_stat(all_files, file_list)
   total_blocks = 0
   all_files.each do |file|
-    file_stat = []
     fs = File::Stat.new(file)
-    total_blocks += fs.blocks
-    file_stat << convert_to_file_type(fs) + convert_to_file_permission(fs)
-    file_stat << fs.nlink.to_i
-    file_stat << Etc.getpwuid(fs.uid).name
-    file_stat << Etc.getgrgid(fs.gid).name
-    file_stat << fs.size
     file_mtime = fs.mtime
-    file_stat << file_mtime.month
-    file_stat << file_mtime.day
-    file_stat << file_mtime.strftime('%H:%M')
-    file_stat << file
-    file_list << file_stat
+    total_blocks += fs.blocks
+    file_list << [
+      convert_to_file_type(fs) + convert_to_file_permission(fs),
+      fs.nlink.to_i,
+      Etc.getpwuid(fs.uid).name,
+      Etc.getgrgid(fs.gid).name,
+      fs.size,
+      file_mtime.month,
+      file_mtime.day,
+      file_mtime.strftime('%H:%M'),
+      file
+    ]
   end
   total_blocks
 end

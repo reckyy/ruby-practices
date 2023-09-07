@@ -59,11 +59,7 @@ def convert_to_file_permission(file_stat)
     6 => 'rw-',
     7 => 'rwx'
   }
-  file_permission_type = ''
-  file_permission_number.each_char do |c|
-    file_permission_type += file_permission_string[c.to_i]
-  end
-  file_permission_type
+  file_permission_number.each_char.map { |c| file_permission_string[c.to_i] }.join
 end
 
 def get_file_stat(all_files, file_list)

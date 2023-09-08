@@ -63,13 +63,12 @@ def convert_to_file_permission(file_stat)
 end
 
 def get_file_stat(all_files)
-  file_list = []
   total_blocks = 0
-  all_files.each do |file|
+  file_list = all_files.map do |file|
     fs = File::Stat.new(file)
     file_mtime = fs.mtime
     total_blocks += fs.blocks
-    file_list << [
+    [
       convert_to_file_type(fs) + convert_to_file_permission(fs),
       fs.nlink.to_i,
       Etc.getpwuid(fs.uid).name,

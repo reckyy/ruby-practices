@@ -9,10 +9,10 @@ def parse_file
   options = ARGV.getopts('l')
   all_files = Dir.glob('*').sort
   if options['l']
-    ls_l(all_files)
+    ls_opt_l(all_files)
   else
     total_row, width = calculate_row_and_space(all_files)
-    ls(all_files, total_row, width)
+    ls_no_opt(all_files, total_row, width)
   end
 end
 
@@ -23,7 +23,7 @@ def calculate_row_and_space(all_files)
   [total_row, width]
 end
 
-def ls(all_files, total_row, width)
+def ls_no_opt(all_files, total_row, width)
   all_sort_files = all_files.each_slice(total_row).to_a
   total_row.times do |col|
     INITIAL_COLUMN.times do |row|
@@ -102,7 +102,7 @@ def print_file_list(file_list, total_blocks)
   end
 end
 
-def ls_l(all_files)
+def ls_opt_l(all_files)
   file_list, total_blocks = get_file_stat(all_files)
   file_list = file_list.transpose.each_with_index { |bfl, i| adjust_elements(bfl, i) }.transpose
   print_file_list(file_list, total_blocks)

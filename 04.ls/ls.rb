@@ -6,13 +6,14 @@ require 'etc'
 INITIAL_COLUMN = 3
 
 def parse_file
-  options = ARGV.getopts('l')
-  all_files = Dir.glob('*').sort
-  if options['l']
-    ls_opt_l(all_files)
-  else
+  options = ARGV.getopts('alr').keys.sort
+  sorted_opts = sort_arl(options)
+  if all_opts.empty?
+    all_files = Dir.glob('*').sort
     total_row, width = calculate_row_and_space(all_files)
     ls_no_opt(all_files, total_row, width)
+  else
+    ls_opt(opts)
   end
 end
 

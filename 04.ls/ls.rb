@@ -7,13 +7,24 @@ INITIAL_COLUMN = 3
 
 def parse_file
   options = ARGV.getopts('alr').keys.sort
-  sorted_opts = sort_arl(options)
-  if all_opts.empty?
+  if options.empty?
     all_files = Dir.glob('*').sort
     total_row, width = calculate_row_and_space(all_files)
     ls_no_opt(all_files, total_row, width)
   else
-    ls_opt(opts)
+    sort_arl(options)
+    ls_opt(options)
+  end
+end
+
+def ls_opt(opts)
+  
+end
+
+def sort_arl(option_array)
+  option_array.sort! do |a, b|
+    string_priority = { 'a' => 1, 'r' => 2, 'l' => 3 }
+    string_priority[a] <=> string_priority[b]
   end
 end
 

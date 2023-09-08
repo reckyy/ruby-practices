@@ -86,13 +86,13 @@ end
 
 def adjust_elements(bfl, idx)
   if bfl.first.is_a?(String)
-    max = bfl.max_by(&:length).length
-    max = ![7, 8].include?(idx) ? max + 1 : max
-    bfl.map! { |element| element.ljust(max) }
+    max_length = bfl.max_by(&:length).length
+    width = ![7, 8].include?(idx) ? max_length + 1 : max_length
+    bfl.map! { |element| element.ljust(width) }
   else
-    max = bfl.max.to_s.length
-    max = idx == 5 ? max + 1 : max
-    bfl.map! { |element| element.to_s.rjust(max) }
+    max_length = bfl.max.to_s.length
+    width = idx == 5 ? max_length + 1 : max_length
+    bfl.map! { |element| element.to_s.rjust(width) }
   end
 end
 

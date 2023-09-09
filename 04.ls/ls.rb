@@ -36,8 +36,6 @@ def ls_opt(opts)
     ls_opt_l(opt_r_files)
   when 'alr'
     ls_opt_l(opt_ar_files)
-  else
-    puts "#{opts.join} option isn't exist."
   end
 end
 

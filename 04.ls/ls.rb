@@ -9,33 +9,37 @@ def run
   opts_hash = ARGV.getopts('alr')
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
   if options.empty?
-    all_files = Dir.glob('*').sort
-    ls_except_opt_l(all_files)
+    files = Dir.glob('*').sort
+    ls_except_opt_l(files)
   else
     ls_opt(options)
   end
 end
 
+def get_file_by_option(opts)
+  files = Dir.glob('*').sort
+  files = Dir.entries('.').sort if opts.include?('a')
+  files.reverse! if opts.include?('r')
+  files
+end
+
 def ls_opt(opts)
-  no_opt_files = Dir.glob('*').sort
-  opt_a_files = Dir.entries('.').sort
-  opt_r_files = no_opt_files.reverse
-  opt_ar_files = opt_a_files.reverse
+  files = get_file_by_option(opts)
   case opts.join
   when 'a'
-    ls_except_opt_l(opt_a_files)
+    ls_except_opt_l(files)
   when 'l'
-    ls_opt_l(no_opt_files)
+    ls_opt_l(files)
   when 'r'
-    ls_except_opt_l(opt_r_files)
+    ls_except_opt_l(files)
   when 'al'
-    ls_opt_l(opt_a_files)
+    ls_opt_l(files)
   when 'ar'
-    ls_except_opt_l(opt_ar_files)
+    ls_except_opt_l(files)
   when 'lr'
-    ls_opt_l(opt_r_files)
+    ls_opt_l(files)
   when 'alr'
-    ls_opt_l(opt_ar_files)
+    ls_opt_l(files)
   end
 end
 

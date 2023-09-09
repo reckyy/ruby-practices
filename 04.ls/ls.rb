@@ -13,7 +13,6 @@ def parse_file
     total_row, width = calculate_row_and_space(all_files)
     ls_no_opt(all_files, total_row, width)
   else
-    sort_arl(options)
     ls_opt(options)
   end
 end
@@ -40,13 +39,6 @@ def ls_opt(opts)
     ls_opt_l(opt_ar_files)
   else
     puts "#{opts.join} option isn't exist."
-  end
-end
-
-def sort_arl(option_array)
-  option_array.sort! do |a, b|
-    string_priority = { 'a' => 1, 'r' => 2, 'l' => 3 }
-    string_priority[a] <=> string_priority[b]
   end
 end
 

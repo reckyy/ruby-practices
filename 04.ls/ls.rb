@@ -6,7 +6,8 @@ require 'etc'
 INITIAL_COLUMN = 3
 
 def parse_file
-  options = ARGV.getopts('alr').keys.sort
+  opts_hash = ARGV.getopts('alr')
+  options = opts_hash.keys.select { |k| opts_hash[k] }.sort
   if options.empty?
     all_files = Dir.glob('*').sort
     total_row, width = calculate_row_and_space(all_files)

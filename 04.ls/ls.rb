@@ -9,7 +9,7 @@ def run
   opts_hash = ARGV.getopts('alr')
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
   files = get_file_by_option(options)
-  if options.empty? || options.include?('l')
+  if options.empty? || !options.include?('l')
     ls_except_opt_l(files)
   else
     ls_opt_l(files)

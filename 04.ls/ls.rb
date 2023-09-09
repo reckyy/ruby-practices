@@ -16,7 +16,7 @@ def run
   end
 end
 
-def get_file_by_option(opts)
+def get_files_by_option(opts)
   files = Dir.glob('*').sort
   files = Dir.entries('.').sort if opts.include?('a')
   files.reverse! if opts.include?('r')

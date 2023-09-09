@@ -18,7 +18,28 @@ def parse_file
 end
 
 def ls_opt(opts)
-  
+  no_opt_files = Dir.glob('*').sort
+  opt_a_files = Dir.entries('.').sort
+  opt_r_files = no_opt_files.reverse
+  opt_ar_files = opt_a_files.reverse
+  case opts.join
+  when 'a'
+    ls_except_opt_l(opt_a_files)
+  when 'l'
+    ls_opt_l(no_opt_files)
+  when 'r'
+    ls_except_opt_l(opt_r_files)
+  when 'al'
+    ls_opt_l(opt_a_files)
+  when 'ar'
+    ls_except_opt_l(opt_ar_files)
+  when 'lr'
+    ls_opt_l(opt_r_files)
+  when 'alr'
+    ls_opt_l(opt_ar_files)
+  else
+    puts "#{opts.join} option isn't exist."
+  end
 end
 
 def sort_arl(option_array)
@@ -35,7 +56,7 @@ def calculate_row_and_space(all_files)
   [total_row, width]
 end
 
-def ls_no_opt(all_files, total_row, width)
+def ls_except_opt_l(all_files, total_row, width)
   all_sort_files = all_files.each_slice(total_row).to_a
   total_row.times do |col|
     INITIAL_COLUMN.times do |row|

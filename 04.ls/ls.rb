@@ -8,11 +8,11 @@ INITIAL_COLUMN = 3
 def run
   opts_hash = ARGV.getopts('alr')
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
-  if options.empty?
-    files = Dir.glob('*').sort
+  files = get_file_by_option(options)
+  if options.empty? || options.include?('l')
     ls_except_opt_l(files)
   else
-    ls_opt(options)
+    ls_opt_l(files)
   end
 end
 
@@ -21,26 +21,6 @@ def get_file_by_option(opts)
   files = Dir.entries('.').sort if opts.include?('a')
   files.reverse! if opts.include?('r')
   files
-end
-
-def ls_opt(opts)
-  files = get_file_by_option(opts)
-  case opts.join
-  when 'a'
-    ls_except_opt_l(files)
-  when 'l'
-    ls_opt_l(files)
-  when 'r'
-    ls_except_opt_l(files)
-  when 'al'
-    ls_opt_l(files)
-  when 'ar'
-    ls_except_opt_l(files)
-  when 'lr'
-    ls_opt_l(files)
-  when 'alr'
-    ls_opt_l(files)
-  end
 end
 
 def calculate_row_and_space(all_files)

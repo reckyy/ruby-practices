@@ -10,8 +10,7 @@ def parse_file
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
   if options.empty?
     all_files = Dir.glob('*').sort
-    total_row, width = calculate_row_and_space(all_files)
-    ls_no_opt(all_files, total_row, width)
+    ls_except_opt_l(all_files)
   else
     ls_opt(options)
   end
@@ -49,7 +48,8 @@ def calculate_row_and_space(all_files)
   [total_row, width]
 end
 
-def ls_except_opt_l(all_files, total_row, width)
+def ls_except_opt_l(all_files)
+  total_row, width = calculate_row_and_space(all_files)
   all_sort_files = all_files.each_slice(total_row).to_a
   total_row.times do |col|
     INITIAL_COLUMN.times do |row|

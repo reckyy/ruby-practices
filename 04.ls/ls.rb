@@ -5,7 +5,7 @@ require 'etc'
 
 INITIAL_COLUMN = 3
 
-def parse_file
+def run
   opts_hash = ARGV.getopts('alr')
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
   if options.empty?
@@ -134,4 +134,4 @@ def ls_opt_l(all_files)
   print_file_list(file_list, total_blocks)
 end
 
-parse_file
+run

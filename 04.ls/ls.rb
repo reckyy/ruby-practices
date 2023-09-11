@@ -5,15 +5,22 @@ require 'etc'
 
 INITIAL_COLUMN = 3
 
-def parse_file
-  options = ARGV.getopts('l')
-  all_files = Dir.glob('*').sort
-  if options['l']
-    ls_opt_l(all_files)
+def run
+  opts_hash = ARGV.getopts('alr')
+  options = opts_hash.keys.select { |k| opts_hash[k] }.sort
+  files = get_file_by_option(options)
+  if options.empty? || !options.include?('l')
+    ls_column(files)
   else
-    total_row, width = calculate_row_and_space(all_files)
-    ls_no_opt(all_files, total_row, width)
+    ls_opt_long(files)
   end
+end
+
+def get_files_by_option(opts)
+  files = Dir.glob('*').sort
+  files = Dir.entries('.').sort if opts.include?('a')
+  files.reverse! if opts.include?('r')
+  files
 end
 
 def calculate_row_and_space(all_files)
@@ -23,7 +30,8 @@ def calculate_row_and_space(all_files)
   [total_row, width]
 end
 
-def ls_no_opt(all_files, total_row, width)
+def ls_column(all_files)
+  total_row, width = calculate_row_and_space(all_files)
   all_sort_files = all_files.each_slice(total_row).to_a
   total_row.times do |col|
     INITIAL_COLUMN.times do |row|
@@ -102,10 +110,10 @@ def print_file_list(file_list, total_blocks)
   end
 end
 
-def ls_opt_l(all_files)
+def ls_opt_long(all_files)
   file_list, total_blocks = get_file_stat(all_files)
   file_list = file_list.transpose.each_with_index { |bfl, i| adjust_elements(bfl, i) }.transpose
   print_file_list(file_list, total_blocks)
 end
 
-parse_file
+run

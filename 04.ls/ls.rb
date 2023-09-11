@@ -10,9 +10,9 @@ def run
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
   files = get_file_by_option(options)
   if options.empty? || !options.include?('l')
-    ls_except_opt_l(files)
+    ls_column(files)
   else
-    ls_opt_l(files)
+    ls_opt_long(files)
   end
 end
 
@@ -30,7 +30,7 @@ def calculate_row_and_space(all_files)
   [total_row, width]
 end
 
-def ls_except_opt_l(all_files)
+def ls_column(all_files)
   total_row, width = calculate_row_and_space(all_files)
   all_sort_files = all_files.each_slice(total_row).to_a
   total_row.times do |col|
@@ -110,7 +110,7 @@ def print_file_list(file_list, total_blocks)
   end
 end
 
-def ls_opt_l(all_files)
+def ls_opt_long(all_files)
   file_list, total_blocks = get_file_stat(all_files)
   file_list = file_list.transpose.each_with_index { |bfl, i| adjust_elements(bfl, i) }.transpose
   print_file_list(file_list, total_blocks)

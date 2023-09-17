@@ -13,6 +13,7 @@ def run
 			content = open(file, 'r')
       wc_list << wc(options, content.read, file)
 		end
+    insert_total(options, wc_list) if options.size >= 2
     wc_list.each { |wl| adjust_elements(wl) }
 		wc_list.each do |wl|
       puts wl.join(' ')
@@ -24,12 +25,26 @@ def run
 	end
 end
 
+def insert_total(options, wc_list)
+  os = options.size
+	total_row = Array.new(os, 0)
+  total_row.push "total"
+	wc_list.each do |wl|
+		0.upto(os - 1) do |i|
+			total_row[i] += wl[i]
+		end
+	end
+  wc_list << total_row
+end
+
 def adjust_elements(elm)
-  if elm.first.is_a?(String)
-    elm.map! { |element| element.ljust(width) }
-  else
-    elm.map! { |element| element.to_s.rjust(7) }
-  end
+  elm.map! { |e|
+    if e.is_a?(String)
+      e.ljust(1)
+    else
+      e.to_s.rjust(7)
+    end
+  }
 end
 
 def wc(opts, f, name)
@@ -42,4 +57,3 @@ def wc(opts, f, name)
 end
 
 run
-

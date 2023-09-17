@@ -15,8 +15,7 @@ def run
 		end
 		puts wc_list.join(' ')
 	else
-		content = $stdin.read
-		wc_list = wc(options, content)
+		wc_list = wc(options, $stdin.read)
 		puts wc_list.join(' ')
 	end
 end

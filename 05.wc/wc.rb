@@ -5,6 +5,7 @@ require 'optparse'
 def run
 	opts_hash = ARGV.getopts('clw')
 	options = opts_hash.keys.select { |k| opts_hash[k] }.sort
+  options = ['c', 'l', 'w'] if options.empty?
 	if $stdin.tty?
 		wc_list = []
 		ARGV.each do |file|

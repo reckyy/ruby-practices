@@ -16,7 +16,8 @@ def run
 		puts wc_list.join(' ')
 	else
 		wc_list = wc(options, $stdin.read)
-		puts wc_list.join(' ')
+		wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }
+    puts
 	end
 end
 

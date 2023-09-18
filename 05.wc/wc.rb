@@ -9,14 +9,14 @@ def run
 	analyses_command(options)
 end
 
-def adjust_elements(elm)
-  elm.map! { |e|
+def adjust_and_printelements(elm)
+  puts elm.map! { |e|
     if e.is_a?(String)
       e.ljust(1)
     else
       e.to_s.rjust(7)
     end
-  }
+  }.join(' ')
 end
 
 def analyses_command(opts)
@@ -29,9 +29,6 @@ def analyses_command(opts)
 		end
     insert_total(opts, wc_list) if ARGV.size >= 2
     wc_list.each { |wl| adjust_elements(wl) }
-		wc_list.each do |wl|
-      puts wl.join(' ')
-    end
 	else
 		wc_list = wc(opts, $stdin.read)
 		wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }

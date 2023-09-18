@@ -9,16 +9,6 @@ def run
   analyses_command(options)
 end
 
-def adjust_and_printelements(elm)
-  puts elm.map! { |e|
-    if e.is_a?(String)
-      e.ljust(1)
-    else
-      e.to_s.rjust(7)
-    end
-  }.join(' ')
-end
-
 def analyses_command(opts)
   if $stdin.tty?
     wc_list = []
@@ -34,6 +24,15 @@ def analyses_command(opts)
   end
 end
 
+def wc(opts, content, name = nil)
+  [
+    opts.include?('l') ? content.lines.size : nil,
+    opts.include?('w') ? content.split.size : nil,
+    opts.include?('c') ? content.bytesize : nil,
+    name
+  ]
+end
+
 def insert_total(opts, wc_list)
   opts_size = opts.size
   total_row = Array.new(opts_size, 0)
@@ -46,13 +45,14 @@ def insert_total(opts, wc_list)
   wc_list << total_row
 end
 
-def wc(opts, content, name = nil)
-  [
-    opts.include?('l') ? content.lines.size : nil,
-    opts.include?('w') ? content.split.size : nil,
-    opts.include?('c') ? content.bytesize : nil,
-    name
-  ]
+def adjust_and_print_elements(elm)
+  puts elm.map! { |e|
+    if e.is_a?(String)
+      e.ljust(1)
+    else
+      e.to_s.rjust(7)
+    end
+  }.join(' ')
 end
 
 run

@@ -46,7 +46,7 @@ def adjust_elements(elm)
   }
 end
 
-def wc(opts, f, name)
+def wc(opts, f, name = nil)
 	[
     opts.include?('l') ? f.lines.size : nil,
     opts.include?('w') ? f.split.size : nil,

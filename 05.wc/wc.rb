@@ -9,18 +9,6 @@ def run
 	analyses_command(options)
 end
 
-def insert_total(opts, wc_list)
-  opts_size = opts.size
-	total_row = Array.new(opts_size, 0)
-  total_row.push "total"
-	wc_list.each do |wl|
-		0.upto(opts_size - 1) do |i|
-			total_row[i] += wl[i]
-		end
-	end
-  wc_list << total_row
-end
-
 def adjust_elements(elm)
   elm.map! { |e|
     if e.is_a?(String)
@@ -49,6 +37,18 @@ def analyses_command(opts)
 		wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }
     puts
 	end
+end
+
+def insert_total(opts, wc_list)
+  opts_size = opts.size
+	total_row = Array.new(opts_size, 0)
+  total_row.push "total"
+	wc_list.each do |wl|
+		0.upto(opts_size - 1) do |i|
+			total_row[i] += wl[i]
+		end
+	end
+  wc_list << total_row
 end
 
 def wc(opts, f, name = nil)

@@ -12,7 +12,7 @@ def run
 			content = open(file, 'r')
       wc_list << wc(options, content.read, file)
 		end
-    insert_total(options, wc_list) if options.size >= 2
+    insert_total(options, wc_list) if ARGV.size >= 2
     wc_list.each { |wl| adjust_elements(wl) }
 		wc_list.each do |wl|
       puts wl.join(' ')

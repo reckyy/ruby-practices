@@ -23,7 +23,7 @@ def analyses_command(opts)
   if $stdin.tty?
     wc_list = []
     ARGV.each do |file|
-      open(file, 'r') { |io| wc_list << wc(opts, io.read, file) }
+      File.open(file, 'r') { |io| wc_list << wc(opts, io.read, file) }
     end
     insert_total(opts, wc_list) if ARGV.size >= 2
     wc_list.each { |wl| adjust_elements(wl) }

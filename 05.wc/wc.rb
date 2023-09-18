@@ -25,11 +25,11 @@ def run
 end
 
 def insert_total(options, wc_list)
-  os = options.size
-	total_row = Array.new(os, 0)
+  opts_size = options.size
+	total_row = Array.new(opts_size, 0)
   total_row.push "total"
 	wc_list.each do |wl|
-		0.upto(os - 1) do |i|
+		0.upto(opts_size - 1) do |i|
 			total_row[i] += wl[i]
 		end
 	end

@@ -23,7 +23,7 @@ def analyses_command(opts)
     }
   else
     wc_list = wc(opts, $stdin.read)
-    wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }
+    wc_list.map { |wl| print wl.to_s.rjust(8) }
     puts
   end
 end

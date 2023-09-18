@@ -5,7 +5,7 @@ require 'optparse'
 
 def run
   opts_hash = ARGV.getopts('clw')
-  options = opts_hash.any? ? ['c', 'l', 'w'] : opts_hash.keys.select { |k| opts_hash[k] }.sort
+  options = opts_hash.any? ? %w[c l w] : opts_hash.keys.select { |k| opts_hash[k] }.sort
   analyses_command(options)
 end
 
@@ -23,9 +23,7 @@ def analyses_command(opts)
   if $stdin.tty?
     wc_list = []
     ARGV.each do |file|
-      content = open(file, 'r') { |io|
-        wc_list << wc(opts, io.read, file)
-      }
+      open(file, 'r') { |io| wc_list << wc(opts, io.read, file) }
     end
     insert_total(opts, wc_list) if ARGV.size >= 2
     wc_list.each { |wl| adjust_elements(wl) }
@@ -39,7 +37,7 @@ end
 def insert_total(opts, wc_list)
   opts_size = opts.size
   total_row = Array.new(opts_size, 0)
-  total_row.push "total"
+  total_row.push 'total'
   wc_list.each do |wl|
     0.upto(opts_size - 1) do |i|
       total_row[i] += wl[i]
@@ -48,11 +46,11 @@ def insert_total(opts, wc_list)
   wc_list << total_row
 end
 
-def wc(opts, f, name = nil)
+def wc(opts, content, name = nil)
   [
-    opts.include?('l') ? f.lines.size : nil,
-    opts.include?('w') ? f.split.size : nil,
-    opts.include?('c') ? f.bytesize : nil,
+    opts.include?('l') ? content.lines.size : nil,
+    opts.include?('w') ? content.split.size : nil,
+    opts.include?('c') ? content.bytesize : nil,
     name
   ]
 end

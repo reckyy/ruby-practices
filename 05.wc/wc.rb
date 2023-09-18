@@ -5,7 +5,8 @@ require 'optparse'
 
 def run
   opts_hash = ARGV.getopts('clw')
-  options = opts_hash.any? ? %w[c l w] : opts_hash.keys.select { |k| opts_hash[k] }.sort
+  options = opts_hash.keys.select { |k| opts_hash[k] }.sort
+  options = %w[c l w] if options.empty?
   analyses_command(options)
 end
 

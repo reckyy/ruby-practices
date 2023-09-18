@@ -16,7 +16,10 @@ def analyses_command(opts)
       File.open(file, 'r') { |io| wc_list << wc(opts, io.read, file) }
     end
     insert_total(opts, wc_list) if ARGV.size >= 2
-    wc_list.each { |wl| adjust_and_print_elements(wl) }
+    wc_list.each { |wl| 
+      adjust_elements(wl)
+      add_space_and_print(wl)
+    }
   else
     wc_list = wc(opts, $stdin.read)
     wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }
@@ -45,14 +48,19 @@ def insert_total(opts, wc_list)
   wc_list << total_row
 end
 
-def adjust_and_print_elements(elm)
-  puts elm.map! { |e|
+def adjust_elements(elm)
+  elm.map! { |e|
     if e.is_a?(String)
       e.ljust(1)
     else
       e.to_s.rjust(7)
     end
-  }.join(' ')
+  }
+end
+
+def add_space_and_print(elm)
+  elm[0] = " #{elm[0]}"
+  puts elm.join(' ')
 end
 
 run

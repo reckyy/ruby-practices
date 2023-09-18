@@ -9,8 +9,9 @@ def run
 	if $stdin.tty?
 		wc_list = []
 		ARGV.each do |file|
-			content = open(file, 'r')
-      wc_list << wc(options, content.read, file)
+			content = open(file, 'r') { |io|
+        wc_list << wc(options, io.read, file)
+      }
 		end
     insert_total(options, wc_list) if ARGV.size >= 2
     wc_list.each { |wl| adjust_elements(wl) }

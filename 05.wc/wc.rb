@@ -6,27 +6,11 @@ require 'optparse'
 def run
 	opts_hash = ARGV.getopts('clw')
 	options = opts_hash.any? ? ['c', 'l', 'w'] : opts_hash.keys.select { |k| opts_hash[k] }.sort
-	if $stdin.tty?
-		wc_list = []
-		ARGV.each do |file|
-			content = open(file, 'r') { |io|
-        wc_list << wc(options, io.read, file)
-      }
-		end
-    insert_total(options, wc_list) if ARGV.size >= 2
-    wc_list.each { |wl| adjust_elements(wl) }
-		wc_list.each do |wl|
-      puts wl.join(' ')
-    end
-	else
-		wc_list = wc(options, $stdin.read)
-		wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }
-    puts
-	end
+	analyses_command(options)
 end
 
-def insert_total(options, wc_list)
-  opts_size = options.size
+def insert_total(opts, wc_list)
+  opts_size = opts.size
 	total_row = Array.new(opts_size, 0)
   total_row.push "total"
 	wc_list.each do |wl|
@@ -45,6 +29,26 @@ def adjust_elements(elm)
       e.to_s.rjust(7)
     end
   }
+end
+
+def analyses_command(opts)
+  if $stdin.tty?
+		wc_list = []
+		ARGV.each do |file|
+			content = open(file, 'r') { |io|
+        wc_list << wc(opts, io.read, file)
+      }
+		end
+    insert_total(opts, wc_list) if ARGV.size >= 2
+    wc_list.each { |wl| adjust_elements(wl) }
+		wc_list.each do |wl|
+      puts wl.join(' ')
+    end
+	else
+		wc_list = wc(opts, $stdin.read)
+		wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }
+    puts
+	end
 end
 
 def wc(opts, f, name = nil)

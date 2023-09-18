@@ -29,12 +29,12 @@ def analyses_command(opts)
 end
 
 def wc(opts, content, name = nil)
-  [
-    opts.include?('l') ? content.lines.size : nil,
-    opts.include?('w') ? content.split.size : nil,
-    opts.include?('c') ? content.bytesize : nil,
-    name
-  ]
+  results = []
+  results << content.lines.size if opts.include?('l')
+  results << content.split.size if opts.include?('w')
+  results << content.bytesize if opts.include?('c')
+  results << name if name
+  results
 end
 
 def insert_total(opts, wc_list)

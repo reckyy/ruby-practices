@@ -16,7 +16,7 @@ def analyses_command(opts)
       File.open(file, 'r') { |io| wc_list << wc(opts, io.read, file) }
     end
     insert_total(opts, wc_list) if ARGV.size >= 2
-    wc_list.each { |wl| adjust_elements(wl) }
+    wc_list.each { |wl| adjust_and_print_elements(wl) }
   else
     wc_list = wc(opts, $stdin.read)
     wc_list.map { |wl| print wl.to_s.rjust(6 + wl.to_s.length) }

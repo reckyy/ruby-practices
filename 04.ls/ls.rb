@@ -8,7 +8,7 @@ INITIAL_COLUMN = 3
 def run
   opts_hash = ARGV.getopts('alr')
   options = opts_hash.keys.select { |k| opts_hash[k] }.sort
-  files = get_file_by_option(options)
+  files = get_files_by_option(options)
   if options.empty? || !options.include?('l')
     ls_column(files)
   else

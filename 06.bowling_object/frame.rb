@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Frame
-
   require_relative 'shot'
 
   attr_reader :shot1, :shot2, :shot3

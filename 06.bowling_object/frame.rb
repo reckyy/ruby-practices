@@ -30,7 +30,7 @@ class Frame
 
   def calc_strike_point(next_frame, next_to_frame)
     if double_strike?(next_frame, next_to_frame)
-      20 + (next_to_frame.shot1)
+      20 + next_to_frame.shot1
     else
       10 + next_frame.shot1 + next_frame.shot2
     end

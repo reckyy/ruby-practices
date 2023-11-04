@@ -60,7 +60,6 @@ class Game
       else
         shots << shot.pins
         if shots.size == 2
-          binding.break
           frame = Frame.new(shots[0], shots[1])
           add_frame(frame)
           shots.clear

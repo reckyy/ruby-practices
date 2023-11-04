@@ -5,7 +5,8 @@ class Frame
 
   attr_reader :shot1, :shot2, :shot3
 
-  def initialize(shot1, shot2, shot3: 0)
+  def initialize(shot1, shot2, shot3: nil)
+    shot3 ||= 0
     @shot1 = shot1
     @shot2 = shot2
     @shot3 = shot3

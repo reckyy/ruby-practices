@@ -25,7 +25,6 @@ class Game
                   @frames[i].sum
                 end
       else
-        binding.break
         game_score += @frames[i].sum
         break
       end
@@ -34,10 +33,18 @@ class Game
     game_score
   end
 
+  def calc_frame9_of_number(scores, frame9_of_number: 18)
+    scores.each_with_index do |s, i|
+      frame9_of_number -= 1 if s == 'X'
+      break if i == frame9_of_number - 1
+    end
+    frame9_of_number
+  end
+
   def separate_to_frame
     scores = ARGV[0].split(',')
     shots = []
-    initial_number_of_frame10 = 18 - scores.count{|s| s == 'X'}
+    initial_number_of_frame10 = calc_frame9_of_number(scores)
     scores.each_with_index do |s, i|
       if i == initial_number_of_frame10
         tenth_frame_scores = scores[initial_number_of_frame10..].map { |s| Shot.new(s).pins }

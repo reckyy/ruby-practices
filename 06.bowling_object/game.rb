@@ -41,30 +41,38 @@ class Game
     frame9_of_number
   end
 
+  def create_frame_by_shot(shot, shots)
+    if shot.symbol == 'X'
+      frame = Frame.new(10, 0)
+      add_frame(frame)
+    else
+      shots << shot.pins
+      if shots.size == 2
+        frame = Frame.new(shots[0], shots[1])
+        add_frame(frame)
+        shots.clear
+      end
+    end
+  end
+
+  def process_frame10(scores, initial_number_of_frame10)
+    tenth_frame_scores = scores[initial_number_of_frame10..].map { |s| Shot.new(s).pins }
+    frame = Frame.new(tenth_frame_scores[0], tenth_frame_scores[1], shot3: tenth_frame_scores[2])
+    add_frame(frame)
+  end
+
   def separate_to_frame
     scores = ARGV[0].split(',')
     shots = []
     initial_number_of_frame10 = calc_frame9_of_number(scores)
     scores.each_with_index do |s, i|
       if i == initial_number_of_frame10
-        tenth_frame_scores = scores[initial_number_of_frame10..].map { |s| Shot.new(s).pins }
-        frame = Frame.new(tenth_frame_scores[0], tenth_frame_scores[1], shot3: tenth_frame_scores[2])
-        add_frame(frame)
+        process_frame10(scores, initial_number_of_frame10)
         break
       end
 
       shot = Shot.new(s)
-      if shot.symbol == 'X'
-        frame = Frame.new(10, 0)
-        add_frame(frame)
-      else
-        shots << shot.pins
-        if shots.size == 2
-          frame = Frame.new(shots[0], shots[1])
-          add_frame(frame)
-          shots.clear
-        end
-      end
+      create_frame_by_shot(shot, shots)
     end
   end
 end

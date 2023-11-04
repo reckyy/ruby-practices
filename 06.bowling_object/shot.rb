@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Shot
+  attr_reader :symbol
+
   def initialize(symbol)
     @symbol = symbol
   end

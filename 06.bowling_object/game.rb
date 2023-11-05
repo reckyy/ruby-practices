@@ -60,7 +60,7 @@ class Game
       next_frame = @frames[i + 1]
       next_to_frame = @frames[i + 2]
       if i < 9
-        score = if @frames[i].shot1 == 10 # strike
+        frame_score = if @frames[i].shot1 == 10 # strike
                   @frames[i].calc_strike_point(next_frame, next_to_frame)
                 elsif @frames[i].sum == 10 # spare
                   10 + next_frame.shot1
@@ -71,7 +71,7 @@ class Game
         game_score += @frames[i].sum
         break
       end
-      game_score += score
+      game_score += frame_score
     end
     game_score
   end

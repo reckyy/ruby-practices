@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Game
-  require 'debug'
   require_relative 'frame'
   def initialize
     @frames = []
@@ -61,12 +60,12 @@ class Game
       next_to_frame = @frames[i + 2]
       if i < 9
         frame_score = if @frames[i].shot1 == 10 # strike
-                  @frames[i].calc_strike_point(next_frame, next_to_frame)
-                elsif @frames[i].sum == 10 # spare
-                  10 + next_frame.shot1
-                else
-                  @frames[i].sum
-                end
+                        @frames[i].calc_strike_point(next_frame, next_to_frame)
+                      elsif @frames[i].sum == 10 # spare
+                        10 + next_frame.shot1
+                      else
+                        @frames[i].sum
+                      end
       else
         game_score += @frames[i].sum
         break

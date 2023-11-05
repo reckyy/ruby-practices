@@ -18,7 +18,7 @@ class Game
     frame9_of_number
   end
 
-  def process_frame10(scores, initial_number_of_frame10)
+  def deal_frame10(scores, initial_number_of_frame10)
     tenth_frame_scores = scores[initial_number_of_frame10..].map { |s| Shot.new(s).pins }
     frame = Frame.new(tenth_frame_scores[0], tenth_frame_scores[1], shot3: tenth_frame_scores[2])
     add_frame(frame)
@@ -44,7 +44,7 @@ class Game
     initial_number_of_frame10 = calc_frame9_of_number(scores)
     scores.each_with_index do |s, i|
       if i == initial_number_of_frame10
-        process_frame10(scores, initial_number_of_frame10)
+        deal_frame10(scores, initial_number_of_frame10)
         break
       end
 
@@ -53,7 +53,7 @@ class Game
     end
   end
 
-  def score
+  def calc_score
     game_score = 0
     0.upto(9) do |i|
       next_frame = @frames[i + 1]

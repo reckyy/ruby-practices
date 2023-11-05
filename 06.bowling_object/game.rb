@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'frame'
+
 class Game
-  require_relative 'frame'
   def initialize
     @frames = []
   end

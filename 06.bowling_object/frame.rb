@@ -3,7 +3,6 @@
 require_relative 'shot'
 
 class Frame
-
   attr_reader :shot1, :shot2, :shot3
 
   def initialize(shot1, shot2, shot3: nil)

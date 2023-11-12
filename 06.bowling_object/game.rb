@@ -27,7 +27,7 @@ class Game
 
   def create_frame_by_shot(shot, shots)
     if shot.symbol == 'X'
-      frame = Frame.new(10, 0)
+      frame = Frame.new(MAX_PINS, 0)
       add_frame(frame)
     else
       shots << shot.pins
@@ -60,10 +60,10 @@ class Game
       next_frame = @frames[i + 1]
       next_to_frame = @frames[i + 2]
       if i < 9
-        frame_score = if @frames[i].shot1 == 10 # strike
+        frame_score = if @frames[i].shot1 == MAX_PINS # strike
                         @frames[i].calc_strike_point(next_frame, next_to_frame)
-                      elsif @frames[i].sum == 10 # spare
-                        10 + next_frame.shot1
+                      elsif @frames[i].sum == MAX_PINS # spare
+                        MAX_PINS + next_frame.shot1
                       else
                         @frames[i].sum
                       end

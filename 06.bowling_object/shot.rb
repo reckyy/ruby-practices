@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+MAX_PINS = 10
+
 class Shot
   attr_reader :symbol
-
-  MAX_PINS = 10
 
   def initialize(symbol)
     @symbol = symbol

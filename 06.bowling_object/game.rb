@@ -5,6 +5,7 @@ require_relative 'frame'
 class Game
   def initialize
     @frames = []
+    separate_to_frame
   end
 
   def add_frame(frame)

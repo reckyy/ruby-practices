@@ -3,5 +3,4 @@
 require_relative 'game'
 
 game = Game.new
-game.separate_to_frame
 puts game.calc_score

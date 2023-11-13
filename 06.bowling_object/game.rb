@@ -5,6 +5,7 @@ require_relative 'frame'
 class Game
   def initialize
     @frames = []
+    @index_of_frame10 = 18
     separate_to_frame
   end
 
@@ -12,16 +13,15 @@ class Game
     @frames << frame
   end
 
-  def calc_index_of_frame10(scores, index_of_frame10: 18)
+  def calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
-      index_of_frame10 -= 1 if s == STRIKE_SYMBOL
-      break if i == index_of_frame10 - 1
+      @index_of_frame10 -= 1 if s == STRIKE_SYMBOL
+      break if i == @index_of_frame10 - 1
     end
-    index_of_frame10
   end
 
-  def deal_frame10(scores, initial_number_of_frame10)
-    tenth_frame_scores = scores[initial_number_of_frame10..].map { |s| Shot.new(s).pins }
+  def deal_frame10(scores)
+    tenth_frame_scores = scores[@index_of_frame10..].map { |s| Shot.new(s).pins }
     frame = Frame.new(tenth_frame_scores[0], tenth_frame_scores[1], shot3: tenth_frame_scores[2])
     add_frame(frame)
   end
@@ -43,10 +43,10 @@ class Game
   def separate_to_frame
     scores = ARGV[0].split(',')
     shots = []
-    initial_number_of_frame10 = calc_index_of_frame10(scores)
+    calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
-      if i == initial_number_of_frame10
-        deal_frame10(scores, initial_number_of_frame10)
+      if i == @index_of_frame10
+        deal_frame10(scores)
         break
       end
 

@@ -61,9 +61,9 @@ class Game
       next_frame = @frames[i + 1]
       next_to_frame = @frames[i + 2]
       if i < 9
-        frame_score = if @frames[i].shot1 == MAX_PINS # strike
+        frame_score = if @frames[i].strike?
                         @frames[i].calc_strike_point(next_frame, next_to_frame)
-                      elsif @frames[i].sum == MAX_PINS # spare
+                      elsif @frames[i].spare?
                         MAX_PINS + next_frame.shot1
                       else
                         @frames[i].sum

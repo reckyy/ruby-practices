@@ -12,12 +12,12 @@ class Game
     @frames << frame
   end
 
-  def calc_frame9_of_number(scores, frame9_of_number: 18)
+  def calc_index_of_frame10(scores, index_of_frame10: 18)
     scores.each_with_index do |s, i|
-      frame9_of_number -= 1 if s == STRIKE_SYMBOL
-      break if i == frame9_of_number - 1
+      index_of_frame10 -= 1 if s == STRIKE_SYMBOL
+      break if i == index_of_frame10 - 1
     end
-    frame9_of_number
+    index_of_frame10
   end
 
   def deal_frame10(scores, initial_number_of_frame10)
@@ -43,7 +43,7 @@ class Game
   def separate_to_frame
     scores = ARGV[0].split(',')
     shots = []
-    initial_number_of_frame10 = calc_frame9_of_number(scores)
+    initial_number_of_frame10 = calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
       if i == initial_number_of_frame10
         deal_frame10(scores, initial_number_of_frame10)

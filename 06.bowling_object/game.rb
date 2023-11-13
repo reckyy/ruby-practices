@@ -14,7 +14,7 @@ class Game
 
   def calc_frame9_of_number(scores, frame9_of_number: 18)
     scores.each_with_index do |s, i|
-      frame9_of_number -= 1 if s == 'X'
+      frame9_of_number -= 1 if s == STRIKE_SYMBOL
       break if i == frame9_of_number - 1
     end
     frame9_of_number
@@ -27,7 +27,7 @@ class Game
   end
 
   def create_frame_by_shot(shot, shots)
-    if shot.symbol == 'X'
+    if shot.symbol == STRIKE_SYMBOL
       frame = Frame.new(MAX_PINS, 0)
       add_frame(frame)
     else

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 MAX_PINS = 10
+STRIKE_SYMBOL = 'X'
 
 class Shot
   attr_reader :symbol
@@ -10,6 +11,6 @@ class Shot
   end
 
   def pins
-    @symbol == 'X' ? MAX_PINS : @symbol.to_i
+    @symbol == STRIKE_SYMBOL ? MAX_PINS : @symbol.to_i
   end
 end

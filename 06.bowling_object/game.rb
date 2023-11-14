@@ -66,10 +66,10 @@ class Game
                       elsif @frames[i].spare?
                         MAX_PINS + next_frame.shot1
                       else
-                        @frames[i].sum
+                        @frames[i].score
                       end
       else
-        game_score += @frames[i].sum
+        game_score += @frames[i].score
         break
       end
       game_score += frame_score

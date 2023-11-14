@@ -11,7 +11,7 @@ class Frame
     @shot3 = shot3 || 0
   end
 
-  def sum
+  def score
     @shot1 + @shot2 + @shot3
   end
 
@@ -20,7 +20,7 @@ class Frame
   end
 
   def spare?
-    sum == MAX_PINS && !strike?
+    score == MAX_PINS && !strike?
   end
 
   def double_strike?(next_frame, next_to_frame)

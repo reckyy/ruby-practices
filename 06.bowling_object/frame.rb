@@ -23,15 +23,17 @@ class Frame
     score == Shot::MAX_PINS && !strike?
   end
 
-  def double_strike?(next_frame, next_to_frame)
-    next_frame && next_to_frame && next_frame.shot1 == Shot::MAX_PINS
-  end
-
   def calc_strike_point(next_frame, next_to_frame)
     if double_strike?(next_frame, next_to_frame)
       (Shot::MAX_PINS * 2) + next_to_frame.shot1
     else
       Shot::MAX_PINS + next_frame.shot1 + next_frame.shot2
     end
+  end
+
+  private
+
+  def double_strike?(next_frame, next_to_frame)
+    next_frame && next_to_frame && next_frame.shot1 == Shot::MAX_PINS
   end
 end

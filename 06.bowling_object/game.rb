@@ -4,9 +4,11 @@ require_relative 'frame'
 
 class Game
   def initialize
+    scores = ARGV[0].split(',')
     @frames = []
     @index_of_frame10 = 18
-    separate_to_frame
+    calc_index_of_frame10(scores)
+    separate_to_frame(scores)
   end
 
   def add_frame(frame)
@@ -40,10 +42,8 @@ class Game
     end
   end
 
-  def separate_to_frame
-    scores = ARGV[0].split(',')
+  def separate_to_frame(scores)
     shots = []
-    calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
       if i == @index_of_frame10
         deal_frame10(scores)

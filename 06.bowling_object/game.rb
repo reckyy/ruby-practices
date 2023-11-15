@@ -11,10 +11,6 @@ class Game
     separate_to_frame(scores)
   end
 
-  def add_frame(frame)
-    @frames << frame
-  end
-
   def calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
       @index_of_frame10 -= 1 if s == STRIKE_SYMBOL
@@ -22,10 +18,17 @@ class Game
     end
   end
 
-  def deal_frame10(scores)
-    tenth_frame_scores = scores[@index_of_frame10..].map { |s| Shot.new(s).pins }
-    frame = Frame.new(tenth_frame_scores[0], tenth_frame_scores[1], shot3: tenth_frame_scores[2])
-    add_frame(frame)
+  def separate_to_frame(scores)
+    shots = []
+    scores.each_with_index do |s, i|
+      if i == @index_of_frame10
+        deal_frame10(scores)
+        break
+      end
+
+      shot = Shot.new(s)
+      create_frame_by_shot(shot, shots)
+    end
   end
 
   def create_frame_by_shot(shot, shots)
@@ -42,17 +45,14 @@ class Game
     end
   end
 
-  def separate_to_frame(scores)
-    shots = []
-    scores.each_with_index do |s, i|
-      if i == @index_of_frame10
-        deal_frame10(scores)
-        break
-      end
+  def add_frame(frame)
+    @frames << frame
+  end
 
-      shot = Shot.new(s)
-      create_frame_by_shot(shot, shots)
-    end
+  def deal_frame10(scores)
+    tenth_frame_scores = scores[@index_of_frame10..].map { |s| Shot.new(s).pins }
+    frame = Frame.new(tenth_frame_scores[0], tenth_frame_scores[1], shot3: tenth_frame_scores[2])
+    add_frame(frame)
   end
 
   def calc_score

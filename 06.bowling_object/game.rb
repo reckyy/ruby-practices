@@ -13,7 +13,7 @@ class Game
 
   def calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
-      @index_of_frame10 -= 1 if s == STRIKE_SYMBOL
+      @index_of_frame10 -= 1 if s == Shot::STRIKE_SYMBOL
       break if i == @index_of_frame10 - 1
     end
   end
@@ -32,8 +32,8 @@ class Game
   end
 
   def create_frame_by_shot(shot, shots)
-    if shot.symbol == STRIKE_SYMBOL
-      frame = Frame.new(MAX_PINS, 0)
+    if shot.symbol == Shot::STRIKE_SYMBOL
+      frame = Frame.new(Shot::MAX_PINS, 0)
       add_frame(frame)
     else
       shots << shot.pins
@@ -64,7 +64,7 @@ class Game
         frame_score = if @frames[i].strike?
                         @frames[i].calc_strike_point(next_frame, next_to_frame)
                       elsif @frames[i].spare?
-                        MAX_PINS + next_frame.shot1
+                        Shot::MAX_PINS + next_frame.shot1
                       else
                         @frames[i].score
                       end

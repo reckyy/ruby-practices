@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-MAX_PINS = 10
-STRIKE_SYMBOL = 'X'
-
 class Shot
+  MAX_PINS = 10
+  STRIKE_SYMBOL = 'X'
+
   attr_reader :symbol
 
   def initialize(symbol)

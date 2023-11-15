@@ -14,7 +14,7 @@ class Game
 
   def calc_index_of_frame10(scores)
     scores.each_with_index do |s, i|
-      @index_of_frame10 -= 1 if s.symbol == Shot::STRIKE_SYMBOL
+      @index_of_frame10 -= 1 if s.pins == Shot::MAX_PINS
       break if i == @index_of_frame10 - 1
     end
   end

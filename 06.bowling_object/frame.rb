@@ -5,10 +5,10 @@ require_relative 'shot'
 class Frame
   attr_reader :shot1, :shot2, :shot3
 
-  def initialize(shot1, shot2, shot3: nil)
+  def initialize(shot1, shot2, shot3: 0)
     @shot1 = shot1
     @shot2 = shot2
-    @shot3 = shot3 || 0
+    @shot3 = shot3
   end
 
   def score

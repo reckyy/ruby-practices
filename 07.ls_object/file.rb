@@ -48,7 +48,7 @@ class FileList
   end
 
   def ls_opt_long
-    file_list, total_blocks = get_file_stat
+    file_list, total_blocks = compile_file_stat
     file_list = file_list.transpose.each_with_index { |bfl, i| adjust_elements(bfl, i) }.transpose
     print_file_list(file_list, total_blocks)
   end

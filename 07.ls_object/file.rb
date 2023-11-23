@@ -8,7 +8,7 @@ class FileList
 
   def initialize
     @options = Option.new.extract_entered_option
-    @files = get_files_by_option
+    @files = retrieve_files_by_option
   end
 
   def show
@@ -21,7 +21,7 @@ class FileList
 
   private
 
-  def get_files_by_option
+  def retrieve_files_by_option
     files = Dir.glob('*').sort
     files = Dir.entries('.').sort if @options.include?('a')
     files.reverse! if @options.include?('r')

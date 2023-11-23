@@ -3,11 +3,12 @@
 require_relative 'frame'
 
 class Game
+  MAX_INDEX_OF_FRAME10 = 18
+
   def initialize
     scores = ARGV[0].split(',').map { |s| Shot.new(s) }
     @frames = []
-    @index_of_frame10 = 18
-    calc_index_of_frame10(scores)
+    @index_of_frame10 = calc_index_of_frame10(scores)
     separate_to_frame(scores)
   end
 
@@ -36,10 +37,12 @@ class Game
   private
 
   def calc_index_of_frame10(scores)
+    index_of_frame10 = Game::MAX_INDEX_OF_FRAME10
     scores.each_with_index do |s, i|
-      @index_of_frame10 -= 1 if s.pins == Shot::MAX_PINS
-      break if i == @index_of_frame10 - 1
+      index_of_frame10 -= 1 if s.pins == Shot::MAX_PINS
+      break if i == index_of_frame10 - 1
     end
+    index_of_frame10
   end
 
   def separate_to_frame(scores)

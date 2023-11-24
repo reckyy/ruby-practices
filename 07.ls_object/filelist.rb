@@ -49,19 +49,19 @@ class FileList
 
   def ls_opt_long
     file_list, total_blocks = compile_file_stat
-    file_list = file_list.transpose.each_with_index { |bfl, i| adjust_elements(bfl, i) }.transpose
+    file_list = file_list.transpose.each_with_index { |file_attribute, i| adjust_elements(file_attribute, i) }.transpose
     print_file_list(file_list, total_blocks)
   end
 
-  def adjust_elements(bfl, idx)
-    if bfl.first.is_a?(String)
-      max_length = bfl.max_by(&:length).length
+  def adjust_elements(file_attribute, idx)
+    if file_attribute.first.is_a?(String)
+      max_length = file_attribute.max_by(&:length).length
       width = ![7, 8].include?(idx) ? max_length + 1 : max_length
-      bfl.map! { |element| element.ljust(width) }
+      file_attribute.map! { |element| element.ljust(width) }
     else
-      max_length = bfl.max.to_s.length
+      max_length = file_attribute.max.to_s.length
       width = idx == 5 ? max_length + 1 : max_length
-      bfl.map! { |element| element.to_s.rjust(width) }
+      file_attribute.map! { |element| element.to_s.rjust(width) }
     end
   end
 

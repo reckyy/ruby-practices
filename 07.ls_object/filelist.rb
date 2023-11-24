@@ -53,18 +53,6 @@ class FileList
     print_file_list(file_list, total_blocks)
   end
 
-  def adjust_elements(file_attribute, idx)
-    if file_attribute.first.is_a?(String)
-      max_length = file_attribute.max_by(&:length).length
-      width = ![7, 8].include?(idx) ? max_length + 1 : max_length
-      file_attribute.map! { |element| element.ljust(width) }
-    else
-      max_length = file_attribute.max.to_s.length
-      width = idx == 5 ? max_length + 1 : max_length
-      file_attribute.map! { |element| element.to_s.rjust(width) }
-    end
-  end
-
   def compile_file_stat
     total_blocks = 0
     file_list = @files.map do |file|
@@ -112,6 +100,18 @@ class FileList
       7 => 'rwx'
     }
     file_permission_number.each_char.map { |c| file_permission_string[c.to_i] }.join
+  end
+
+  def adjust_elements(file_attribute, idx)
+    if file_attribute.first.is_a?(String)
+      max_length = file_attribute.max_by(&:length).length
+      width = ![7, 8].include?(idx) ? max_length + 1 : max_length
+      file_attribute.map! { |element| element.ljust(width) }
+    else
+      max_length = file_attribute.max.to_s.length
+      width = idx == 5 ? max_length + 1 : max_length
+      file_attribute.map! { |element| element.to_s.rjust(width) }
+    end
   end
 
   def print_file_list(file_list, total_blocks)

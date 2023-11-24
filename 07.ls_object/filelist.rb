@@ -29,9 +29,9 @@ class FileList
   end
 
   def ls_column
-    total_row, width = calculate_row_and_space
-    all_sort_files = @files.each_slice(total_row).to_a
-    total_row.times do |col|
+    rows, width = calculate_row_and_space
+    all_sort_files = @files.each_slice(rows).to_a
+    rows.times do |col|
       INITIAL_COLUMN.times do |row|
         file_name = all_sort_files[row][col]
         print file_name.ljust(width) unless file_name.nil?
@@ -42,9 +42,9 @@ class FileList
 
   def calculate_row_and_space
     div, mod = @files.size.divmod(INITIAL_COLUMN)
-    total_row = mod.zero? ? div : (div + 1)
+    rows = mod.zero? ? div : (div + 1)
     width = @files.max_by(&:length).length + 7
-    [total_row, width]
+    [rows, width]
   end
 
   def ls_opt_long

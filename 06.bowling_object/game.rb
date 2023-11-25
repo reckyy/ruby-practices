@@ -49,7 +49,7 @@ class Game
     frames = []
     scores.each_with_index do |s, i|
       if i == @index_of_frame10
-        deal_frame10(scores, frames)
+        frames.push(deal_frame10(scores))
         break
       end
 
@@ -60,24 +60,19 @@ class Game
 
   def create_frame_by_shot(shot, shots, frames)
     if shot.strike?
-      add_frame(Frame.new(shot.pins, 0), frames)
+      frames.push(Frame.new(shot.pins, 0))
     else
       shots << shot.pins
       if shots.size == 2
-        add_frame(Frame.new(shots[0], shots[1]), frames)
+        frames.push(Frame.new(shots[0], shots[1]))
         shots.clear
       end
     end
   end
 
-  def add_frame(frame, frames)
-    frames << frame
-  end
-
-  def deal_frame10(scores, frames)
+  def deal_frame10(scores)
     tenth_frame_scores = scores[@index_of_frame10..]
     shot3 = tenth_frame_scores[2] ? tenth_frame_scores[2].pins : 0
-    frame = Frame.new(tenth_frame_scores[0].pins, tenth_frame_scores[1].pins, shot3:)
-    add_frame(frame, frames)
+    Frame.new(tenth_frame_scores[0].pins, tenth_frame_scores[1].pins, shot3:)
   end
 end

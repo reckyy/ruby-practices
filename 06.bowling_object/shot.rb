@@ -13,4 +13,8 @@ class Shot
   def pins
     @symbol == STRIKE_SYMBOL ? MAX_PINS : @symbol.to_i
   end
+
+  def strike?
+    @symbol == STRIKE_SYMBOL
+  end
 end

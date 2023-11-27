@@ -13,6 +13,7 @@ class Game
 
   def calc_score
     game_score = 0
+
     0.upto(9) do |i|
       next_frame = @frames[i + 1]
       next_to_frame = @frames[i + 2]
@@ -53,21 +54,23 @@ class Game
         break
       end
 
-      create_frame_by_shot(s, shots, frames)
+      this_frame = create_frame_by_shot(s, shots)
+      frames.push(this_frame) unless this_frame.nil?
     end
     frames
   end
 
-  def create_frame_by_shot(shot, shots, frames)
+  def create_frame_by_shot(shot, shots)
     if shot.perfect_symbol?
-      frames.push(Frame.new(shot.pins, 0))
+      this_frame = Frame.new(shot.pins, 0)
     else
       shots << shot.pins
       if shots.size == 2
-        frames.push(Frame.new(shots[0], shots[1]))
+        this_frame = Frame.new(shots[0], shots[1])
         shots.clear
       end
     end
+    this_frame
   end
 
   def deal_frame10(scores)

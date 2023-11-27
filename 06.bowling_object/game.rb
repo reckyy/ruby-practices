@@ -38,7 +38,7 @@ class Game
   def calc_index_of_frame10(scores)
     index_of_frame10 = Game::MAX_INDEX_OF_FRAME10
     scores.each_with_index do |s, i|
-      index_of_frame10 -= 1 if s.strike?
+      index_of_frame10 -= 1 if s.perfect_symbol?
       break if i == index_of_frame10 - 1
     end
     index_of_frame10
@@ -59,7 +59,7 @@ class Game
   end
 
   def create_frame_by_shot(shot, shots, frames)
-    if shot.strike?
+    if shot.perfect_symbol?
       frames.push(Frame.new(shot.pins, 0))
     else
       shots << shot.pins

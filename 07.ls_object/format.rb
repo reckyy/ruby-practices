@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require_relative 'ls'
 
 class Format
-
   def initialize(opts, file_list)
     @format_options = opts
     @file_list = file_list

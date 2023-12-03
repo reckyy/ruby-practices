@@ -1,47 +1,28 @@
 # frozen_string_literal: true
-require 'debug'
+require_relative 'ls'
 
 class Format
-  INITIAL_COLUMN = 3
 
   def initialize(opts, file_list)
     @format_options = opts
     @file_list = file_list
   end
 
-  def show
+  def format
     if @format_options.empty? || !@format_options.include?('l')
-      ls_column
+      Ls.ls_column(@file_list)
     else
-      ls_opt_long
+      file_list_with_info, total_blocks = ls_opt_long
+      Ls.print_file_list(file_list_with_info, total_blocks)
     end
   end
 
   private
 
-  def ls_column
-    rows, width = calculate_row_and_space
-    all_sort_files = @file_list.each_slice(rows).to_a
-    rows.times do |col|
-      INITIAL_COLUMN.times do |row|
-        file_name = all_sort_files[row][col]
-        print file_name.ljust(width) unless file_name.nil?
-      end
-      puts
-    end
-  end
-
-  def calculate_row_and_space
-    div, mod = @file_list.size.divmod(INITIAL_COLUMN)
-    rows = mod.zero? ? div : (div + 1)
-    width = @file_list.max_by(&:length).length + 7
-    [rows, width]
-  end
-
   def ls_opt_long
-    file_list, total_blocks = compile_file_stat
-    file_list = file_list.transpose.each_with_index { |file_attribute, i| adjust_elements(file_attribute, i) }.transpose
-    print_file_list(file_list, total_blocks)
+    file_list_with_info, total_blocks = compile_file_stat
+    file_list_with_info = file_list_with_info.transpose.each_with_index { |file_attribute, i| adjust_elements(file_attribute, i) }.transpose
+    [file_list_with_info, total_blocks]
   end
 
   def compile_file_stat
@@ -102,13 +83,6 @@ class Format
       max_length = file_attribute.max.to_s.length
       width = idx == 5 ? max_length + 1 : max_length
       file_attribute.map! { |element| element.to_s.rjust(width) }
-    end
-  end
-
-  def print_file_list(file_list, total_blocks)
-    puts "total #{total_blocks}"
-    file_list.each do |list|
-      puts list.join(' ')
     end
   end
 end

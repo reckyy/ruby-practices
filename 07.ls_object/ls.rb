@@ -5,13 +5,23 @@ class Ls
 
   def self.ls_column(files)
     rows, width = calculate_row_and_space(files)
-    all_sort_files = files.each_slice(rows).to_a
-    rows.times do |col|
-      INITIAL_COLUMN.times do |row|
-        file_name = all_sort_files[row][col]
-        print file_name.ljust(width) unless file_name.nil?
-      end
+    if files.size <= 3
+      files.each { |f| print f.ljust(width) }
+    elsif files.size == 4
+      transposed_files = files.each_slice(rows).to_a.transpose
+      transposed_files[0].each { |tf| print tf.ljust(width) }
+      print transposed_files[1][0].ljust(width)
       puts
+      puts transposed_files[1][1]
+    else
+      all_sort_files = files.each_slice(rows).to_a
+      rows.times do |col|
+        INITIAL_COLUMN.times do |row|
+          file_name = all_sort_files[row][col]
+          print file_name.ljust(width) unless file_name.nil?
+        end
+        puts
+      end
     end
   end
 

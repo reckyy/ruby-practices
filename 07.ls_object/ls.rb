@@ -7,6 +7,7 @@ class Ls
     rows, width = calculate_row_and_space(files)
     if files.size <= 3
       files.each { |f| print f.ljust(width) }
+      puts
     elsif files.size == 4
       transposed_files = files.each_slice(rows).to_a.transpose
       transposed_files[0].each { |tf| print tf.ljust(width) }

@@ -2,4 +2,6 @@
 
 require_relative 'filelist'
 
-FileList.new.show
+option = Option.new.extract_entered_option
+fl = FileList.new(option)
+fl.show(option)

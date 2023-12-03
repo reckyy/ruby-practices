@@ -6,13 +6,12 @@ require_relative 'option'
 class FileList
   INITIAL_COLUMN = 3
 
-  def initialize
-    @options = Option.new.extract_entered_option
-    @files = retrieve_files_by_option
+  def initialize(opts)
+    @files = retrieve_files_by_option(opts)
   end
 
-  def show
-    if @options.empty? || !@options.include?('l')
+  def show(opts)
+    if opts.empty? || !opts.include?('l')
       ls_column
     else
       ls_opt_long
@@ -21,10 +20,10 @@ class FileList
 
   private
 
-  def retrieve_files_by_option
+  def retrieve_files_by_option(opts)
     files = Dir.glob('*').sort
-    files = Dir.entries('.').sort if @options.include?('a')
-    files.reverse! if @options.include?('r')
+    files = Dir.entries('.').sort if opts.include?('a')
+    files.reverse! if opts.include?('r')
     files
   end
 

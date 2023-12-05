@@ -3,19 +3,18 @@
 require 'etc'
 
 class MyFileStat
-  attr_reader :total_blocks, :info
+  attr_reader :block, :info
 
   def initialize(file)
-    @info, @total_blocks = compile_file_stat(file)
+    @info, @block = compile_file_stat(file)
   end
 
   private
 
   def compile_file_stat(file)
-    total_blocks = 0
     fs = File::Stat.new(file)
     file_mtime = fs.mtime
-    total_blocks += fs.blocks
+    block = fs.blocks
     file_stats =
       [
         convert_to_file_type(fs) + convert_to_file_permission(fs),
@@ -28,7 +27,7 @@ class MyFileStat
         file_mtime.strftime('%H:%M'),
         file
       ]
-    [file_stats, total_blocks]
+    [file_stats, block]
   end
 
   def convert_to_file_type(file_stat)

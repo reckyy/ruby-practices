@@ -36,24 +36,27 @@ class Format
   def ls_opt_long
     file_stats = @file_list.map{ |file| MyFileStat.new(file) }
     max_width = calculate_max_width(file_stats)
-    file_stats.each { |fs| print_file_stat(fs, max_width) }
+    total_blocks = file_stats.map(&:block).sum
+    print_file_stat(file_stats, total_blocks, max_width)
   end
 
-  def print_file_stat(fs, max_width)
-    print [
-      "#{fs.info[0].ljust(max_width[:file_type])} ",
-      fs.info[1].to_s.rjust(max_width[:hard_link_count]),
-      "#{fs.info[2].ljust(max_width[:owner_name])} ",
-      "#{fs.info[3].rjust(max_width[:hard_link_count])} ",
-      fs.info[4].to_s.rjust(max_width[:byte_size]),
-      fs.info[5].to_s.rjust(max_width[:month]),
-      "#{fs.info[6].to_s.rjust(max_width[:date])} ",
-      fs.info[7].ljust(max_width[:time]).to_s,
-      fs.info[8].ljust(max_width[:file_name]).to_s
-    ].join(' ')
-    puts
+  def print_file_stat(file_stats, total_blocks, max_width)
+    puts "total #{total_blocks}"
+    file_stats.each do |fs|
+      print [
+        "#{fs.info[0]} ",
+        fs.info[1].to_s.rjust(max_width[:hard_link_count]),
+        "#{fs.info[2].ljust(max_width[:owner_name])} ",
+        "#{fs.info[3].rjust(max_width[:hard_link_count])} ",
+        fs.info[4].to_s.rjust(max_width[:byte_size]),
+        fs.info[5].to_s.rjust(max_width[:month]),
+        fs.info[6].to_s.rjust(max_width[:date]),
+        fs.info[7],
+        fs.info[8].ljust(max_width[:file_name]).to_s
+      ].join(' ')
+      puts
+    end
   end
-
 
   private
 
@@ -66,15 +69,13 @@ class Format
 
   def calculate_max_width(file_stats)
     {
-      file_type: file_stats.map { |fs| fs.info[0].to_s.size }.max,
       hard_link_count: file_stats.map { |fs| fs.info[1].to_s.size }.max,
       owner_name: file_stats.map{ |fs| fs.info[2].to_s.size }.max,
       group_name: file_stats.map{ |fs| fs.info[3].to_s.size }.max,
       byte_size: file_stats.map{ |fs| fs.info[4].to_s.size }.max,
       month: file_stats.map{ |fs| fs.info[5].to_s.size }.max,
-      date: file_stats.map{ |fs| fs.info[6].to_s.size }.max,
-      time: file_stats.map{ |fs| fs.info[7].to_s.size }.max,
-      file_name: file_stats.map{ |fs| fs.info[8].to_s.size }.max,
+      date: file_stats.map{ |fs| fs.info[6].to_s.size }.max + 1,
+      file_name: file_stats.map{ |fs| fs.info[8].to_s.size }.max
     }
   end
 end

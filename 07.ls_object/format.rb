@@ -34,8 +34,8 @@ class Format
 
   def ls_opt_long
     fs = MyFileStat.new(@file_list)
-    fs.info.transpose.each_with_index { |file_attribute, i| adjust_elements(file_attribute, i) }.transpose
-    [file_list_with_info, total_blocks]
+    adjusted_fs_info = fs.info.transpose.each_with_index { |file_attribute, i| adjust_elements(file_attribute, i) }.transpose
+    print_file_list(adjusted_fs_info, fs.total_blocks)
   end
 
 
@@ -62,7 +62,7 @@ class Format
       file_attribute.map! { |element| element.ljust(width) }
     else
       max_length = file_attribute.max.to_s.length
-      width = idx == 5 ? max_length + 1 : max_length
+      width = idx == 6 ? max_length + 1 : max_length
       file_attribute.map! { |element| element.to_s.rjust(width) }
     end
   end

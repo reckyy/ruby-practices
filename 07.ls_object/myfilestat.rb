@@ -6,7 +6,7 @@ class MyFileStat
   attr_reader :total_blocks, :info
 
   def initialize(file_list)
-    @info, @file_stats = compile_file_stat(file_list)
+    @info, @total_blocks = compile_file_stat(file_list)
   end
 
   private

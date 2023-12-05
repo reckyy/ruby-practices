@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'myfilestat'
+require 'debug'
 
 class Format
   INITIAL_COLUMN = 3
@@ -33,9 +34,24 @@ class Format
   end
 
   def ls_opt_long
-    fs = MyFileStat.new(@file_list)
-    adjusted_fs_info = fs.info.transpose.each_with_index { |file_attribute, i| adjust_elements(file_attribute, i) }.transpose
-    print_file_list(adjusted_fs_info, fs.total_blocks)
+    file_stats = @file_list.map{ |file| MyFileStat.new(file) }
+    max_width = calculate_max_width(file_stats)
+    file_stats.each { |fs| print_file_stat(fs, max_width) }
+  end
+
+  def print_file_stat(fs, max_width)
+    print [
+      "#{fs.info[0].ljust(max_width[:file_type])} ",
+      fs.info[1].to_s.rjust(max_width[:hard_link_count]),
+      "#{fs.info[2].ljust(max_width[:owner_name])} ",
+      "#{fs.info[3].rjust(max_width[:hard_link_count])} ",
+      fs.info[4].to_s.rjust(max_width[:byte_size]),
+      fs.info[5].to_s.rjust(max_width[:month]),
+      "#{fs.info[6].to_s.rjust(max_width[:date])} ",
+      fs.info[7].ljust(max_width[:time]).to_s,
+      fs.info[8].ljust(max_width[:file_name]).to_s
+    ].join(' ')
+    puts
   end
 
 
@@ -48,22 +64,17 @@ class Format
     [rows, width]
   end
 
-  def print_file_list(file_list, total_blocks)
-    puts "total #{total_blocks}"
-    file_list.each do |list|
-      puts list.join(' ')
-    end
-  end
-
-  def adjust_elements(file_attribute, idx)
-    if file_attribute.first.is_a?(String)
-      max_length = file_attribute.max_by(&:length).length
-      width = ![7, 8].include?(idx) ? max_length + 1 : max_length
-      file_attribute.map! { |element| element.ljust(width) }
-    else
-      max_length = file_attribute.max.to_s.length
-      width = idx == 6 ? max_length + 1 : max_length
-      file_attribute.map! { |element| element.to_s.rjust(width) }
-    end
+  def calculate_max_width(file_stats)
+    {
+      file_type: file_stats.map { |fs| fs.info[0].to_s.size }.max,
+      hard_link_count: file_stats.map { |fs| fs.info[1].to_s.size }.max,
+      owner_name: file_stats.map{ |fs| fs.info[2].to_s.size }.max,
+      group_name: file_stats.map{ |fs| fs.info[3].to_s.size }.max,
+      byte_size: file_stats.map{ |fs| fs.info[4].to_s.size }.max,
+      month: file_stats.map{ |fs| fs.info[5].to_s.size }.max,
+      date: file_stats.map{ |fs| fs.info[6].to_s.size }.max,
+      time: file_stats.map{ |fs| fs.info[7].to_s.size }.max,
+      file_name: file_stats.map{ |fs| fs.info[8].to_s.size }.max,
+    }
   end
 end

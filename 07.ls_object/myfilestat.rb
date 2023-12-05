@@ -5,18 +5,18 @@ require 'etc'
 class MyFileStat
   attr_reader :total_blocks, :info
 
-  def initialize(file_list)
-    @info, @total_blocks = compile_file_stat(file_list)
+  def initialize(file)
+    @info, @total_blocks = compile_file_stat(file)
   end
 
   private
 
-  def compile_file_stat(file_list)
+  def compile_file_stat(file)
     total_blocks = 0
-    file_stats = file_list.map do |file|
-      fs = File::Stat.new(file)
-      file_mtime = fs.mtime
-      total_blocks += fs.blocks
+    fs = File::Stat.new(file)
+    file_mtime = fs.mtime
+    total_blocks += fs.blocks
+    file_stats =
       [
         convert_to_file_type(fs) + convert_to_file_permission(fs),
         fs.nlink.to_i,
@@ -28,7 +28,6 @@ class MyFileStat
         file_mtime.strftime('%H:%M'),
         file
       ]
-    end
     [file_stats, total_blocks]
   end
 

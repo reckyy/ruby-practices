@@ -7,20 +7,20 @@ class Ls
   attr_reader :files
 
   def initialize
-    @option = Option.new.extract_entered_option
-    @files = retrieve_files_by_option(@option)
+    @opts = Option.new
+    @files = retrieve_files_by_option
   end
 
   def show
-    @option.include?('l') ? Format.new(@files).ls_opt_long : Format.new(@files).ls_column
+    @opts.long_format? ? Format.new(@files).ls_opt_long : Format.new(@files).ls_column
   end
 
   private
 
-  def retrieve_files_by_option(opts)
+  def retrieve_files_by_option
     files = Dir.glob('*').sort
-    files = Dir.entries('.').sort if opts.include?('a')
-    files.reverse! if opts.include?('r')
+    files = Dir.entries('.').sort if @opts.all?
+    files.reverse! if @opts.reverse?
     files
   end
 end

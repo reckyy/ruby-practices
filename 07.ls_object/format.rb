@@ -34,7 +34,7 @@ class Format
   end
 
   def ls_opt_long
-    file_stats = @file_list.map{ |file| MyFileStat.new(file) }
+    file_stats = @file_list.map { |file| MyFileStat.new(file) }
     max_width = calculate_max_width(file_stats)
     total_blocks = file_stats.map(&:block).sum
     print_file_stat(file_stats, total_blocks, max_width)
@@ -70,12 +70,12 @@ class Format
   def calculate_max_width(file_stats)
     {
       hard_link_count: file_stats.map { |fs| fs.info[1].to_s.size }.max,
-      owner_name: file_stats.map{ |fs| fs.info[2].to_s.size }.max,
-      group_name: file_stats.map{ |fs| fs.info[3].to_s.size }.max,
-      byte_size: file_stats.map{ |fs| fs.info[4].to_s.size }.max,
-      month: file_stats.map{ |fs| fs.info[5].to_s.size }.max,
-      date: file_stats.map{ |fs| fs.info[6].to_s.size }.max + 1,
-      file_name: file_stats.map{ |fs| fs.info[8].to_s.size }.max
+      owner_name: file_stats.map { |fs| fs.info[2].to_s.size }.max,
+      group_name: file_stats.map { |fs| fs.info[3].to_s.size }.max,
+      byte_size: file_stats.map { |fs| fs.info[4].to_s.size }.max,
+      month: file_stats.map { |fs| fs.info[5].to_s.size }.max,
+      date: file_stats.map { |fs| fs.info[6].to_s.size }.max + 1,
+      file_name: file_stats.map { |fs| fs.info[8].to_s.size }.max
     }
   end
 end

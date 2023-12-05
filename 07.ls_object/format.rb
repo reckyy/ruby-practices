@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'myfilestat'
-require 'debug'
 
 class Format
   INITIAL_COLUMN = 3

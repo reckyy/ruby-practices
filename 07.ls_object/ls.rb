@@ -4,8 +4,6 @@ require_relative 'option'
 require_relative 'format'
 
 class Ls
-  attr_reader :files
-
   def initialize
     @opts = Option.new
     @files = retrieve_files_by_option

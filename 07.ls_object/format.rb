@@ -39,24 +39,6 @@ class Format
     print_file_stat(file_stats, total_blocks, max_width)
   end
 
-  def print_file_stat(file_stats, total_blocks, max_width)
-    puts "total #{total_blocks}"
-    file_stats.each do |fs|
-      print [
-        "#{fs.info[0]} ",
-        fs.info[1].to_s.rjust(max_width[:hard_link_count]),
-        "#{fs.info[2].ljust(max_width[:owner_name])} ",
-        "#{fs.info[3].rjust(max_width[:hard_link_count])} ",
-        fs.info[4].to_s.rjust(max_width[:byte_size]),
-        fs.info[5].to_s.rjust(max_width[:month]),
-        fs.info[6].to_s.rjust(max_width[:date]),
-        fs.info[7],
-        fs.info[8].ljust(max_width[:file_name]).to_s
-      ].join(' ')
-      puts
-    end
-  end
-
   private
 
   def calculate_row_and_space
@@ -76,5 +58,23 @@ class Format
       date: file_stats.map { |fs| fs.info[6].to_s.size }.max + 1,
       file_name: file_stats.map { |fs| fs.info[8].to_s.size }.max
     }
+  end
+
+  def print_file_stat(file_stats, total_blocks, max_width)
+    puts "total #{total_blocks}"
+    file_stats.each do |fs|
+      print [
+        "#{fs.info[0]} ",
+        fs.info[1].to_s.rjust(max_width[:hard_link_count]),
+        "#{fs.info[2].ljust(max_width[:owner_name])} ",
+        "#{fs.info[3].rjust(max_width[:hard_link_count])} ",
+        fs.info[4].to_s.rjust(max_width[:byte_size]),
+        fs.info[5].to_s.rjust(max_width[:month]),
+        fs.info[6].to_s.rjust(max_width[:date]),
+        fs.info[7],
+        fs.info[8].ljust(max_width[:file_name]).to_s
+      ].join(' ')
+      puts
+    end
   end
 end

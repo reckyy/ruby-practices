@@ -6,22 +6,22 @@ class FileInfoPrinter
   INITIAL_COLUMN = 3
 
   def initialize(file_list)
-    @file_list = file_list
+    @files = file_list
   end
 
   def ls_column
     rows, width = calculate_row_and_space
-    if @file_list.size <= 3
-      @file_list.each { |f| print f.ljust(width) }
+    if @files.size <= 3
+      @files.each { |f| print f.ljust(width) }
       puts
-    elsif @file_list.size == 4
-      transposed_files = @file_list.each_slice(rows).to_a.transpose
+    elsif @files.size == 4
+      transposed_files = @files.each_slice(rows).to_a.transpose
       transposed_files[0].each { |tf| print tf.ljust(width) }
       print transposed_files[1][0].ljust(width)
       puts
       puts transposed_files[1][1]
     else
-      all_sort_files = @file_list.each_slice(rows).to_a
+      all_sort_files = @files.each_slice(rows).to_a
       rows.times do |col|
         INITIAL_COLUMN.times do |row|
           file_name = all_sort_files[row][col]
@@ -33,7 +33,7 @@ class FileInfoPrinter
   end
 
   def ls_opt_long
-    file_stats = @file_list.map { |file| FileInfo.new(file) }
+    file_stats = @files.map { |file| FileInfo.new(file) }
     max_width = calculate_max_width(file_stats)
     total_blocks = file_stats.map(&:block).sum
     print_file_stat(file_stats, total_blocks, max_width)
@@ -42,9 +42,9 @@ class FileInfoPrinter
   private
 
   def calculate_row_and_space
-    div, mod = @file_list.size.divmod(INITIAL_COLUMN)
+    div, mod = @files.size.divmod(INITIAL_COLUMN)
     rows = mod.zero? ? div : (div + 1)
-    width = @file_list.max_by(&:length).length + 7
+    width = @files.max_by(&:length).length + 7
     [rows, width]
   end
 

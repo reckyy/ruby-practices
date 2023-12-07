@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'file_info'
+require 'debug'
 
 class FileInfoPrinter
   INITIAL_COLUMN = 3
@@ -11,24 +12,13 @@ class FileInfoPrinter
 
   def print_in_short_format
     rows, width = calculate_row_and_space
-    if @files.size <= 3
-      @files.each { |f| print f.ljust(width) }
-      puts
-    elsif @files.size == 4
-      transposed_files = @files.each_slice(rows).to_a.transpose
-      transposed_files[0].each { |tf| print tf.ljust(width) }
-      print transposed_files[1][0].ljust(width)
-      puts
-      puts transposed_files[1][1]
-    else
-      all_sort_files = @files.each_slice(rows).to_a
-      rows.times do |col|
-        INITIAL_COLUMN.times do |row|
-          file_name = all_sort_files[row][col]
-          print file_name.ljust(width) unless file_name.nil?
-        end
-        puts
-      end
+    formated_files = @files.map do |file|
+      file.ljust(width)
+    end
+    listed_files = formated_files.each_slice(rows).to_a
+    adjusted_files = listed_files.map { |array| array.values_at(0..(rows - 1)) }.transpose
+    adjusted_files.each do |array|
+      puts array.join('')
     end
   end
 

@@ -42,8 +42,7 @@ class FileInfoPrinter
   private
 
   def calculate_row_and_space
-    div, mod = @files.size.divmod(INITIAL_COLUMN)
-    rows = mod.zero? ? div : (div + 1)
+    rows = @files.size.ceildiv(INITIAL_COLUMN)
     width = @files.max_by(&:length).length + 7
     [rows, width]
   end

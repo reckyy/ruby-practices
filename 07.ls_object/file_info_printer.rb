@@ -12,9 +12,7 @@ class FileInfoPrinter
 
   def print_in_short_format
     rows, width = calculate_row_and_space
-    formated_files = @files.map do |file|
-      file.ljust(width)
-    end
+    formated_files = @files.map { |file| file.ljust(width) }
     listed_files = formated_files.each_slice(rows).to_a
     adjusted_files = listed_files.map { |array| array.values_at(0..(rows - 1)) }.transpose
     adjusted_files.each do |array|

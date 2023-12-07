@@ -4,8 +4,8 @@ require_relative 'option'
 require_relative 'format'
 
 class Ls
-  def initialize
-    @opts = Option.new
+  def initialize(input)
+    @opts = Option.new(input)
     @files = retrieve_files_by_option
   end
 

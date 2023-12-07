@@ -2,4 +2,5 @@
 
 require_relative 'ls'
 
-Ls.new.show
+input = ARGV.getopts('alr')
+Ls.new(input).show

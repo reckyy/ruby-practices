@@ -3,13 +3,12 @@
 require 'optparse'
 
 class Option
-  def initialize
-    opts_hash = ARGV.getopts('alr')
-    @params = extract_entered_option(opts_hash)
+  def initialize(input)
+    @params = extract_entered_option(input)
   end
 
-  def extract_entered_option(opts_hash)
-    opts_hash.keys.select { |k| opts_hash[k] }.sort
+  def extract_entered_option(input)
+    input.keys.select { |k| input[k] }.sort
   end
 
   def all?

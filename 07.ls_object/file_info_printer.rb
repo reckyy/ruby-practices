@@ -9,7 +9,7 @@ class FileInfoPrinter
     @files = file_list
   end
 
-  def ls_column
+  def print_in_short_format
     rows, width = calculate_row_and_space
     if @files.size <= 3
       @files.each { |f| print f.ljust(width) }
@@ -32,11 +32,11 @@ class FileInfoPrinter
     end
   end
 
-  def ls_opt_long
+  def print_in_long_format
     file_stats = @files.map { |file| FileInfo.new(file) }
     max_width = calculate_max_width(file_stats)
     total_blocks = file_stats.map(&:block).sum
-    print_file_stat(file_stats, total_blocks, max_width)
+    print_file_info(file_stats, total_blocks, max_width)
   end
 
   private
@@ -60,7 +60,7 @@ class FileInfoPrinter
     }
   end
 
-  def print_file_stat(file_stats, total_blocks, max_width)
+  def print_file_info(file_stats, total_blocks, max_width)
     puts "total #{total_blocks}"
     file_stats.each do |fs|
       print [

@@ -10,7 +10,7 @@ class Ls
   end
 
   def show
-    @opts.long_format? ? FileInfoPrinter.new(@files).ls_opt_long : FileInfoPrinter.new(@files).ls_column
+    @opts.long_format? ? FileInfoPrinter.new(@files).print_in_long_format : FileInfoPrinter.new(@files).print_in_short_format
   end
 
   private

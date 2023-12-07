@@ -6,12 +6,12 @@ class FileInfo
   attr_reader :block, :info
 
   def initialize(file)
-    @info, @block = compile_file_stat(file)
+    @info, @block = compile_file_info(file)
   end
 
   private
 
-  def compile_file_stat(file)
+  def compile_file_info(file)
     fs = File::Stat.new(file)
     file_mtime = fs.mtime
     block = fs.blocks

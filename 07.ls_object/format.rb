@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'myfilestat'
+require_relative 'fileinfo'
 
 class Format
   INITIAL_COLUMN = 3
@@ -33,7 +33,7 @@ class Format
   end
 
   def ls_opt_long
-    file_stats = @file_list.map { |file| MyFileStat.new(file) }
+    file_stats = @file_list.map { |file| FileInfo.new(file) }
     max_width = calculate_max_width(file_stats)
     total_blocks = file_stats.map(&:block).sum
     print_file_stat(file_stats, total_blocks, max_width)

@@ -2,7 +2,7 @@
 
 require 'etc'
 
-class MyFileStat
+class FileInfo
   attr_reader :block, :info
 
   def initialize(file)

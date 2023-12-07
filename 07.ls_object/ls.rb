@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'option'
-require_relative 'format'
+require_relative 'file_info_printer'
 
 class Ls
   def initialize(input)
@@ -10,7 +10,7 @@ class Ls
   end
 
   def show
-    @opts.long_format? ? Format.new(@files).ls_opt_long : Format.new(@files).ls_column
+    @opts.long_format? ? FileInfoPrinter.new(@files).ls_opt_long : FileInfoPrinter.new(@files).ls_column
   end
 
   private

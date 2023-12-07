@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'fileinfo'
+require_relative 'file_info'
 
-class Format
+class FileInfoPrinter
   INITIAL_COLUMN = 3
 
   def initialize(file_list)

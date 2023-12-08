@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'file_info'
+require_relative 'file_stat'
 require 'debug'
 
-class FileInfoPrinter
+class FileStatPrinter
   INITIAL_COLUMN = 3
 
   def initialize(file_list)
@@ -21,7 +21,7 @@ class FileInfoPrinter
   end
 
   def print_in_long_format
-    file_stats = @files.map { |file| FileInfo.new(file) }
+    file_stats = @files.map { |file| Ls::FileStat.new(file) }
     max_width = calculate_max_width(file_stats)
     total_blocks = file_stats.map(&:block).sum
     print_file_info(file_stats, total_blocks, max_width)

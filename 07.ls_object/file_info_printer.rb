@@ -36,14 +36,16 @@ class FileInfoPrinter
   end
 
   def calculate_max_width(file_stats)
+    file_info = file_stats.map(&:info)
+    file_stat_max_sizes = file_info.transpose.map { |array| array.map { |fs| fs.to_s.size }.max }
     {
-      hard_link_count: file_stats.map { |fs| fs.info[1].to_s.size }.max,
-      owner_name: file_stats.map { |fs| fs.info[2].to_s.size }.max,
-      group_name: file_stats.map { |fs| fs.info[3].to_s.size }.max,
-      byte_size: file_stats.map { |fs| fs.info[4].to_s.size }.max,
-      month: file_stats.map { |fs| fs.info[5].to_s.size }.max,
-      date: file_stats.map { |fs| fs.info[6].to_s.size }.max + 1,
-      file_name: file_stats.map { |fs| fs.info[8].to_s.size }.max
+      hard_link_count: file_stat_max_sizes[1],
+      owner_name: file_stat_max_sizes[2],
+      group_name: file_stat_max_sizes[3],
+      byte_size: file_stat_max_sizes[4],
+      month: file_stat_max_sizes[5],
+      date: file_stat_max_sizes[6],
+      file_name: file_stat_max_sizes[8]
     }
   end
 

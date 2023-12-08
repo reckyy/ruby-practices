@@ -23,7 +23,7 @@ class FileStatPrinter
     file_stats = @files.map { |file| Ls::FileStat.new(file) }
     max_width = calculate_max_width(file_stats)
     total_blocks = file_stats.map(&:block).sum
-    print_file_info(file_stats, total_blocks, max_width)
+    print_file_stat(file_stats, total_blocks, max_width)
   end
 
   private
@@ -48,7 +48,7 @@ class FileStatPrinter
     }
   end
 
-  def print_file_info(file_stats, total_blocks, max_width)
+  def print_file_stat(file_stats, total_blocks, max_width)
     puts "total #{total_blocks}"
     file_stats.each do |fs|
       print [

@@ -7,12 +7,12 @@ class Ls
     attr_reader :block, :info
 
     def initialize(file)
-      @info, @block = compile_file_info(file)
+      @info, @block = compile_file_stat(file)
     end
 
     private
 
-    def compile_file_info(file)
+    def compile_file_stat(file)
       fs = File::Stat.new(file)
       file_mtime = fs.mtime
       block = fs.blocks

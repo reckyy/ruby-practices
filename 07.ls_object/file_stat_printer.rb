@@ -32,10 +32,6 @@ class FileStatPrinter
     [rows, width]
   end
 
-  def max(num1, num2)
-    num1 > num2 ? num1 : num2
-  end
-
   def print_file_stat(file_stats)
     total_blocks = file_stats.map(&:block).sum
     max_width = calculate_max_width(file_stats)
@@ -76,5 +72,9 @@ class FileStatPrinter
       max_widths[:file_name] = max(fs.name.length, max_widths[:file_name])
     end
     max_widths
+  end
+
+  def max(num1, num2)
+    num1 > num2 ? num1 : num2
   end
 end

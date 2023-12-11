@@ -32,8 +32,8 @@ class FileStatPrinter
     [rows, width]
   end
 
-  def max(a, b)
-    a > b ? a : b
+  def max(num1, num2)
+    num1 > num2 ? num1 : num2
   end
 
   def print_file_stat(file_stats)
@@ -66,7 +66,7 @@ class FileStatPrinter
       date: 0,
       file_name: 0
     }
-    file_stats.each { |fs|
+    file_stats.each do |fs|
       max_widths[:hard_link_count] = max(fs.hard_link.to_s.length, max_widths[:hard_link_count])
       max_widths[:owner_name] = max(fs.owner_name.length, max_widths[:owner_name])
       max_widths[:group_name] = max(fs.group_name.length, max_widths[:group_name])
@@ -74,7 +74,7 @@ class FileStatPrinter
       max_widths[:month] = max(fs.month.to_s.length, max_widths[:month])
       max_widths[:date] = max(fs.date.to_s.length, max_widths[:date])
       max_widths[:file_name] = max(fs.name.length, max_widths[:file_name])
-    }
+    end
     max_widths
   end
 end

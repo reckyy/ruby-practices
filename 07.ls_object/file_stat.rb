@@ -4,32 +4,51 @@ require 'etc'
 
 class Ls
   class FileStat
-    attr_reader :block, :info
+    attr_reader :name
 
     def initialize(file)
-      @info, @block = compile_file_stat(file)
+      @stats = File::Stat.new(file)
+      @name = file
+    end
+
+    def type_and_mode
+      convert_to_file_type(@stats) + convert_to_file_permission(@stats)
+    end
+
+    def hard_link
+      @stats.nlink.to_i
+    end
+
+    def owner_name
+      Etc.getpwuid(@stats.uid).name
+    end
+
+    def group_name
+      Etc.getgrgid(@stats.gid).name
+    end
+
+    def byte_size
+      @stats.size
+    end
+
+    def month
+      @stats.mtime.month
+    end
+
+    # File::Statのメソッド名はdayだが、日にちは英語でdateのため。
+    def date
+      @stats.mtime.day
+    end
+
+    def time
+      @stats.mtime.strftime('%H:%M')
+    end
+
+    def block
+      @stats.blocks
     end
 
     private
-
-    def compile_file_stat(file)
-      fs = File::Stat.new(file)
-      file_mtime = fs.mtime
-      block = fs.blocks
-      file_stats =
-        [
-          convert_to_file_type(fs) + convert_to_file_permission(fs),
-          fs.nlink.to_i,
-          Etc.getpwuid(fs.uid).name,
-          Etc.getgrgid(fs.gid).name,
-          fs.size,
-          file_mtime.month,
-          file_mtime.day,
-          file_mtime.strftime('%H:%M'),
-          file
-        ]
-      [file_stats, block]
-    end
 
     def convert_to_file_type(file_stat)
       {

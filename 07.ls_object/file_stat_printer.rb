@@ -21,9 +21,7 @@ class FileStatPrinter
 
   def print_in_long_format
     file_stats = @files.map { |file| Ls::FileStat.new(file) }
-    max_width = calculate_max_width(file_stats)
-    total_blocks = file_stats.map(&:block).sum
-    print_file_stat(file_stats, total_blocks, max_width)
+    print_file_stat(file_stats)
   end
 
   private
@@ -34,35 +32,49 @@ class FileStatPrinter
     [rows, width]
   end
 
-  def calculate_max_width(file_stats)
-    file_info = file_stats.map(&:info)
-    file_stat_max_sizes = file_info.transpose.map { |array| array.map { |fs| fs.to_s.size }.max }
-    {
-      hard_link_count: file_stat_max_sizes[1],
-      owner_name: file_stat_max_sizes[2],
-      group_name: file_stat_max_sizes[3],
-      byte_size: file_stat_max_sizes[4],
-      month: file_stat_max_sizes[5],
-      date: file_stat_max_sizes[6],
-      file_name: file_stat_max_sizes[8]
-    }
+  def max(a, b)
+    a > b ? a : b
   end
 
-  def print_file_stat(file_stats, total_blocks, max_width)
+  def print_file_stat(file_stats)
+    total_blocks = file_stats.map(&:block).sum
+    max_width = calculate_max_width(file_stats)
     puts "total #{total_blocks}"
     file_stats.each do |fs|
       print [
-        "#{fs.info[0]} ",
-        fs.info[1].to_s.rjust(max_width[:hard_link_count]),
-        "#{fs.info[2].ljust(max_width[:owner_name])} ",
-        "#{fs.info[3].rjust(max_width[:hard_link_count])} ",
-        fs.info[4].to_s.rjust(max_width[:byte_size]),
-        fs.info[5].to_s.rjust(max_width[:month]),
-        fs.info[6].to_s.rjust(max_width[:date]),
-        fs.info[7],
-        fs.info[8].ljust(max_width[:file_name]).to_s
+        "#{fs.type_and_mode} ",
+        fs.hard_link.to_s.rjust(max_width[:hard_link_count]),
+        "#{fs.owner_name.ljust(max_width[:owner_name])} ",
+        "#{fs.group_name.rjust(max_width[:hard_link_count])} ",
+        fs.byte_size.to_s.rjust(max_width[:byte_size]),
+        fs.month.to_s.rjust(max_width[:month]),
+        fs.date.to_s.rjust(max_width[:date]),
+        fs.time,
+        fs.name.ljust(max_width[:file_name]).to_s
       ].join(' ')
       puts
     end
+  end
+
+  def calculate_max_width(file_stats)
+    max_widths = {
+      hard_link_count: 0,
+      owner_name: 0,
+      group_name: 0,
+      byte_size: 0,
+      month: 0,
+      date: 0,
+      file_name: 0
+    }
+    file_stats.each { |fs|
+      max_widths[:hard_link_count] = max(fs.hard_link.to_s.length, max_widths[:hard_link_count])
+      max_widths[:owner_name] = max(fs.owner_name.length, max_widths[:owner_name])
+      max_widths[:group_name] = max(fs.group_name.length, max_widths[:group_name])
+      max_widths[:byte_size] = max(fs.byte_size.to_s.length, max_widths[:byte_size])
+      max_widths[:month] = max(fs.month.to_s.length, max_widths[:month])
+      max_widths[:date] = max(fs.date.to_s.length, max_widths[:date])
+      max_widths[:file_name] = max(fs.name.length, max_widths[:file_name])
+    }
+    max_widths
   end
 end

@@ -10,7 +10,8 @@ class Ls
   end
 
   def show
-    @opts.long_format? ? FileStatPrinter.new(@files).print_in_long_format : FileStatPrinter.new(@files).print_in_short_format
+    file_stat_printer = FileStatPrinter.new(@files)
+    @opts.long_format? ? file_stat_printer.print_in_long_format : file_stat_printer.print_in_short_format
   end
 
   private

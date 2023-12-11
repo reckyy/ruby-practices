@@ -3,6 +3,8 @@
 require 'optparse'
 
 class Option
+  OPTIONS = 'alr'
+
   def initialize(input)
     @params = extract_entered_option(input)
   end

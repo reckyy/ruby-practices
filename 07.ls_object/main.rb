@@ -2,5 +2,5 @@
 
 require_relative 'ls'
 
-input = ARGV.getopts('alr')
+input = ARGV.getopts(Option::OPTIONS)
 Ls.new(input).show
